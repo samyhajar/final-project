@@ -2,11 +2,14 @@
 
 Basic principles :
 
-  - a web application that allows a user to enter text and informations 
-  - which will be then use to create automatically a PDF (maybe later upload also a csv file) 
+  - a web application that allows a user to enter text and informations (Sender and Recipient, Tax number/UID Nummer)
+  - you'll be given the option for the letter you want to send (inland, international, europe)  // or upload your csv
+  - which will be then use to create automatically a PDF.
   - This PDF will be then automatically (Pupeteer) send through the service of the austrian post (https://www.tages-post.at/start.html)
-  - After Upload of the PDF (that we created for you) you'll be given the option for the letter you want to send (inland, international) 
-  - this service to resume helps you create a digital format of a letter and the entity will receive this letter physically.
+  - After Upload of the PDF (that we created for you) , 
+
+
+> this service helps you create a digital format of a letter and the entity will receive this letter physically.
   
 
 
