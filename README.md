@@ -1,3 +1,17 @@
+## The Project
+
+Basic principles :
+
+  - a web application that allows a user to enter text and informations 
+  - which will be then use to create automatically a PDF (maybe later upload also a csv file) 
+  - This PDF will be then automatically (Pupeteer) send through the service of the austrian post (https://www.tages-post.at/start.html)
+  - After Upload of the PDF (that we created for you) you'll be given the option for the letter you want to send (inland, international) 
+  - this service to resume helps you create a digital format of a letter and the entity will receive this letter physically.
+  
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
