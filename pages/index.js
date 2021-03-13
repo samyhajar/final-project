@@ -1,65 +1,134 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
+import { sizing } from '@material-ui/system';
+import TextField from '@material-ui/core/TextField';
+import { positions } from '@material-ui/system';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import Button from '@material-ui/core/Button';
+import { PDFViewer } from '@react-pdf/renderer';
+import { Page, Document, PDFDownloadLink } from '@react-pdf/renderer';
+
+import ReactPDF from '@react-pdf/renderer';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(2),
+      width: theme.spacing(24),
+      height: theme.spacing(24),
+      display: 'block',
+    },
+  },
+  customBorderRadius: {
+    borderRadius: 25,
+  },
+  textField: {
+    width: theme.spacing(),
+  },
+}));
 
 export default function Home() {
+  const classes = useStyles();
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
+    <div>
+      <h1>Pdf</h1>
+      <Document>
+        <Page size="A4">
+          <div>
+            <Paper
+              sx={{
+                height: '29.7cm',
+                width: '21cm',
+                margin: ' 0 400px',
+              }}
+              elevation={6}
+            >
+              <form>
+                <TextField
+                  style={{ marginLeft: '550px', marginTop: '20px' }}
+                  id="outlined-multiline-static"
+                  label="Sender"
+                  multiline
+                  rows={7}
+                  placeholder="Vor und Nachname
+                  Adresse, Hausnummer, Tür/Stiege/Stock, Ort, Staat"
+                  variant="outlined"
+                />
+                <hr style={{ marginLeft: '20px', width: '50%' }} />
+                <TextField
+                  size="small"
+                  className={classes.inputField}
+                  style={{
+                    marginLeft: '20px',
+                    marginTop: '0px',
+                    width: '400px',
+                  }}
+                  id="outlined-basic"
+                  label="Recipient"
+                  variant="outlined"
+                />
+              </form>
+              <form>
+                <hr style={{ marginLeft: '20px', width: '50%' }} />
+                <TextField
+                  style={{ marginLeft: '20px', marginTop: '40px' }}
+                  id="outlined-multiline-static"
+                  label="Sender"
+                  multiline
+                  rows={7}
+                  defaultValue="Vor und Nachname
+              Adresse, Hausnummer, Tür/Stiege/Stock,  \n Ort, Staat"
+                  variant="outlined"
+                />
+              </form>
+              <form
+                style={{ marginLeft: '550px', marginTop: '10px' }}
+                noValidate
+              >
+                <TextField
+                  id="date"
+                  label="Datum"
+                  type="date"
+                  defaultValue="2017-05-24"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </form>
+              <hr style={{ marginLeft: '20px', width: '50%' }} />
+              <form>
+                <TextField
+                  id="outlined-full-width"
+                  label="Body"
+                  style={{
+                    width: '650px',
+                    height: '200px',
+                    marginLeft: '30px',
+                    padding: '5px',
+                    marginTop: '10px',
+                  }}
+                  rows={20}
+                  s
+                  placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                  margin="normal"
+                  multiline
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
+                />
+              </form>
+            </Paper>
+          </div>
+        </Page>
+      </Document>
     </div>
-  )
+  );
 }
