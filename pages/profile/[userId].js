@@ -1,6 +1,9 @@
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import { Error, User } from '../../util/types';
+import React from 'react';
+import { Grid, Box, Typography } from '@material-ui/core';
+import Fade from 'react-reveal/Fade';
 
 export default function Profile(props) {
   if (!props.user) {
@@ -20,9 +23,27 @@ export default function Profile(props) {
         <title>User Profile: {props.user.username}</title>
       </Head>
 
-      <h1>{props.user.username}</h1>
-
-      <div>id: {props.user.id}</div>
+      {/* <div>id: {props.user.id}</div> */}
+      <div className="bg">
+        <Fade right>
+          <div className="centered">
+            <Grid
+              container
+              direction="column"
+              justify="flex-end"
+              alignItems="center"
+            >
+              <Grid>
+                <Box>
+                  <Typography variant="h2" component="p">
+                    Hello {props.user.username}!
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </div>
+        </Fade>
+      </div>
     </>
   );
 }

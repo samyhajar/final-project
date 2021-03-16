@@ -1,33 +1,25 @@
+import React from 'react';
+
 import {
-  Document,
   Page,
-  PDFDownloadLink,
-  StyleSheet,
   Text,
   View,
+  Document,
+  StyleSheet,
+  PDFDownloadLink,
+  PDFViewer,
 } from '@react-pdf/renderer';
-import { useEffect } from 'react';
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
-});
 
 const MyDocument = (props) => (
   <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.section}>
+    <Page size="A4">
+      <View>
         <Text>{props.name}</Text>
-      </View>
-      <View style={styles.section}>
-        <Text>good right?</Text>
+        <Text>{props.address}</Text>
+        <Text>{props.optionalAddress}</Text>
+        <Text>{props.ort}</Text>
+        <Text>{props.plz}</Text>
+        <Text>{props.staat}</Text>
       </View>
     </Page>
   </Document>

@@ -20,9 +20,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
+      <Link color="inherit" href="https://material-ui.com/"></Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -94,6 +92,14 @@ export default function Login(props) {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
+          {errors.map((error) => (
+            <div
+              style={{ color: 'red' }}
+              key={`error-message-${error.message}`}
+            >
+              {error.message}
+            </div>
+          ))}
           <form
             style={{
               width: '100%', // Fix IE 11 issue.
@@ -104,6 +110,7 @@ export default function Login(props) {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  style={{ width: '400px' }}
                   autoComplete="username"
                   name="username"
                   variant="outlined"
@@ -144,11 +151,6 @@ export default function Login(props) {
         <Box mt={5}>
           <Copyright />
         </Box>
-        {errors.map((error) => (
-          <div style={{ color: 'red' }} key={`error-message-${error.message}`}>
-            {error.message}
-          </div>
-        ))}
       </Container>
     </div>
   );

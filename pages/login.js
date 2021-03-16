@@ -106,6 +106,7 @@ export default function Login(props) {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
+                  style={{ width: '400px' }}
                   autoComplete="username"
                   name="username"
                   variant="outlined"
