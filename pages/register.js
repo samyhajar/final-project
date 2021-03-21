@@ -74,7 +74,7 @@ export default function Login(props) {
             ? router.query.returnTo[0]
             : router.query.returnTo;
 
-          router.push(returnTo || `/profile/${user.id}`);
+          router.push(returnTo || `/login`);
         }}
       >
         <CssBaseline />

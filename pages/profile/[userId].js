@@ -20,7 +20,7 @@ export default function Profile(props) {
   return (
     <>
       <Head>
-        <title>User Profile: {props.user.username}</title>
+        <title>User Profile: {props.user.userName}</title>
       </Head>
 
       {/* <div>id: {props.user.id}</div> */}
@@ -36,7 +36,7 @@ export default function Profile(props) {
               <Grid>
                 <Box>
                   <Typography variant="h2" component="p">
-                    Hello {props.user.username}!
+                    Hello {props.user.userName}!
                   </Typography>
                 </Box>
               </Grid>
@@ -54,7 +54,7 @@ export async function getServerSideProps(context) {
   );
 
   const session = await getSessionByToken(context.req.cookies.session);
-
+  console.log(session);
   if (!session || session.userId !== Number(context.query.userId)) {
     return {
       props: {
@@ -65,5 +65,5 @@ export async function getServerSideProps(context) {
   }
 
   const user = await getUserById(context.query.userId);
-  return { props: { user } };
+  return { props: { user: user } };
 }

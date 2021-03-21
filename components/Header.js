@@ -12,33 +12,18 @@ import {
 import { Home } from '@material-ui/icons';
 import Link from 'next/link';
 
-// const useStyles = makeStyles({
-//   navDisplayFlex: {
-//     display: `flex`,
-//     justifyContent: `space-between`,
-//   },
-//   linkText: {
-//     textDecoration: `none`,
-//     textTransform: `uppercase`,
-//     color: `white`,
-//   },
-//   navbarDisplayFlex: {
-//     display: `flex`,
-//     justifyContent: `space-between`,
-//   },
-// });
+// const homeLink = [{ title: `HOME`, path: `/` }];
 
-const homeLink = [{ title: `HOME`, path: `/` }];
-
-const navLinks = [
-  { title: `ABOUT`, path: `/about` },
-  { title: `PRODUCT`, path: `/product` },
-  { title: `LOGIN`, path: `/login` },
-  { title: `REGISTER`, path: `/register` },
-  { title: `LOGOUT`, path: `/logout` },
-];
-
-const Header = () => {
+const Header = (props) => {
+  const homeLink = [{ title: `HOME`, path: `/` }];
+  const navLinks = [
+    { title: `Home`, path: `/` },
+    { title: `${props.userName}`, path: `/profile/` },
+    { title: `PDFS`, path: `/documents` },
+    { title: `LOGIN`, path: `/login` },
+    { title: `REGISTER`, path: `/register` },
+    { title: `LOGOUT`, path: `/logout` },
+  ];
   // const classes = useStyles();
   return (
     <AppBar position="static">

@@ -2,6 +2,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import { Paper, TextField } from '@material-ui/core';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { useEffect, useState } from 'react';
+// import { getServerSideProps } from './logout';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function AppComponent() {
@@ -82,7 +83,6 @@ export default function AppComponent() {
     };
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
     pdfDocGenerator.getDataUrl(setUrl);
-    console.log(pdfDocGenerator);
   }
 
   return (
@@ -101,9 +101,7 @@ export default function AppComponent() {
             <form sx={{ display: 'block' }}>
               <TextField
                 value={name}
-                onChange={(event) => {
-                  setName(event.currentTarget.value);
-                }}
+                onChange={(event) => setName(event.currentTarget.value)}
                 label="Vor/Nachname"
                 id="standard-size-small"
                 size="small"
@@ -169,7 +167,11 @@ export default function AppComponent() {
             </form>
             <form>
               <hr style={{ marginLeft: '20px', width: '50%' }} />
-              <TextField
+              <textarea
+                rows="5"
+                cols="60"
+                name="text"
+                placeholder="Enter text"
                 value={sender}
                 onChange={(event) => setSender(event.currentTarget.value)}
                 style={{ marginLeft: '20px', marginTop: '40px' }}
@@ -177,8 +179,8 @@ export default function AppComponent() {
                 label="Sender"
                 multiline
                 rows={7}
-                defaultValue="Vor und Nachname
-              Adresse, Hausnummer, Tür/Stiege/Stock,  \n Ort, Staat"
+                defaultValue="Vor und Nachname Adresse, Hausnummer,
+              Tür/Stiege/Stock, \n Ort, Staat"
                 variant="outlined"
               />
             </form>
@@ -248,3 +250,12 @@ export default function AppComponent() {
     </div>
   );
 }
+
+// export async function getServerSideProps(context) {
+//   console.log(pdfDocGenerator)
+//   return {
+//     props: {
+//       productInfo: productInfo || null,
+//     },
+//   };
+// }

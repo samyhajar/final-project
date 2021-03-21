@@ -165,7 +165,7 @@ export async function getUserById(id) {
   const users = await sql`
     SELECT
       id,
-      username
+      username as user_name
     FROM
       users
     WHERE
@@ -209,21 +209,49 @@ export async function createUser(username, passwordHash) {
   return camelcaseRecords(users)[0];
 }
 
-// SQL Join
-// Get information from multiple tables
-// export async function getTeamMemberWithRoleById(id) {
-//   const teamMembers = await sql`
-//     SELECT
-//       users.id as team_member_id,
-//       users.first_name as first_name,
-//       users.last_name as last_name,
-//     FROM
-//       team_members,
-//       roles
-//     WHERE
-//       team_members.id = ${id} AND
-//       team_members.role_id = roles.id
-//   `;
+export async function createDocument(
+  vor_nachname,
+  addresse,
+  door_block,
+  ort,
+  plz,
+  recipient,
+  date,
+  body,
+  user_id,
+) {
+  const documents = await sql`
+    INSERT INTO documents
+      (vor_nachname, addresse, door_block, ort, plz, recipient, date, body, user_id)
+    VALUES
+    (${vor_nachname}, ${addresse}, ${door_block}, ${ort}, ${plz}, ${recipient}, ${date}, ${body}, ${user_id})
+    RETURNING *
+  `;
+  return camelcaseRecords(documents)[0];
+}
 
-//   return camelcaseRecords(teamMembers)[0];
-// }
+export async function getUserIdFromSessionToken(token) {
+  const userId = await sql`
+    SELECT
+      user_id
+    FROM
+      sessions
+    WHERE
+      token = ${token}
+  `;
+
+  return camelcaseRecords(userId)[0];
+}
+
+export async function getDocumentbyuserId(user_id) {
+  const documentsInfo = sql`
+    SELECT
+     *
+     FROM
+    documents
+  `;
+  return documentsInfo;
+}
+
+// WHERE
+// user_id = ${user_id};
