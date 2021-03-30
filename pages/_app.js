@@ -37,7 +37,7 @@ export default function MyApp(props) {
       <ThemeProvider theme={theme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Header userName={userName} />
+        <Header userName={userName} session={isSessionValid} />
         <Component
           {...pageProps}
           setIsSessionStateStale={setIsSessionStateStale}

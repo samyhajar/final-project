@@ -14,8 +14,6 @@ export default async function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    //TODO: write getUserbySESSIONTOKEN database function
-
     const user = await getUserIdFromSessionToken(req.cookies.session);
 
     const document = await createDocument(
@@ -24,8 +22,10 @@ export default async function handler(req, res) {
       req.body.optionalAddress,
       req.body.ort,
       req.body.plz,
+      req.body.staat,
+      req.body.sender,
       req.body.recipient,
-      req.body.dateTime,
+      req.body.date,
       req.body.body,
       user.userId,
     );

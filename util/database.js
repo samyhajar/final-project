@@ -210,11 +210,13 @@ export async function createUser(username, passwordHash) {
 }
 
 export async function createDocument(
-  vor_nachname,
-  addresse,
-  door_block,
+  name,
+  address,
+  optionalAddress,
   ort,
   plz,
+  staat,
+  sender,
   recipient,
   date,
   body,
@@ -222,9 +224,9 @@ export async function createDocument(
 ) {
   const documents = await sql`
     INSERT INTO documents
-      (vor_nachname, addresse, door_block, ort, plz, recipient, date, body, user_id)
+      (name, address, optionalAddress, ort, plz, staat, sender, recipient, date, body, user_id)
     VALUES
-    (${vor_nachname}, ${addresse}, ${door_block}, ${ort}, ${plz}, ${recipient}, ${date}, ${body}, ${user_id})
+    (${name}, ${address}, ${optionalAddress}, ${ort}, ${plz}, ${staat}, ${sender} ,${recipient}, ${date}, ${body}, ${user_id})
     RETURNING *
   `;
   return camelcaseRecords(documents)[0];

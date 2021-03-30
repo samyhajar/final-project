@@ -19,12 +19,16 @@ const Header = (props) => {
   const navLinks = [
     { title: `Home`, path: `/` },
     { title: `${props.userName}`, path: `/profile/` },
+    { title: `CREATOR`, path: `/creator` },
     { title: `PDFS`, path: `/documents` },
-    { title: `LOGIN`, path: `/login` },
     { title: `REGISTER`, path: `/register` },
-    { title: `LOGOUT`, path: `/logout` },
   ];
-  // const classes = useStyles();
+
+  if (props.session) {
+    navLinks.push({ title: `LOGOUT`, path: `/logout` });
+  } else {
+    navLinks.push({ title: `LOGIN`, path: `/login` });
+  }
   return (
     <AppBar position="static">
       <Toolbar>

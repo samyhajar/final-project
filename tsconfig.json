@@ -28,7 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js"
-  ],
+, "components/Header.txs", "components/Header.txs"  ],
   "exclude": [
     "node_modules",
     "build"
