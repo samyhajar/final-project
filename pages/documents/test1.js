@@ -2,14 +2,121 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { GetServerSidePropsContext } from 'next';
 import { useState } from 'react';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { Button, Container, Typography } from '@material-ui/core';
+import { useRouter } from 'next/router';
+import { format, compareAsc } from 'date-fns';
+import { loadStripe } from '@stripe/stripe-js';
+import { Product } from '../../components/Product';
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Products(props) {
   const [url, setUrl] = useState('');
+  const router = useRouter();
+  const stripeLoader = loadStripe(props.publicKey);
+
   // date back to string and back to date
   props.documentsInfo.forEach(
     (document) => (document.date = new Date(document.date)),
   );
 
+  async function handleClick(mode, priceID, quantity = 1) {
+    const stripeClient = await stripeLoader;
+
+    const { sessionId } = await fetch('/api/stripeIndex', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        quantity,
+        mode,
+        priceID,
+      }),
+    }).then((res) => res.json());
+
+    stripeClient.redirectToCheckout({
+      sessionId,
+    });
+  }
+
+  async function createIframeUrl(pdfInfo) {
+    if (!process.browser) return;
+    var docDefinition = {
+      content: [
+        // if you don't need styles, you can use a simple string to define a paragraph
+        // using a { text: '...' } object lets you set styling properties
+        { text: pdfInfo.name, fontSize: 10, margin: [400, 2, 10, 0] },
+        {
+          text: pdfInfo.address,
+          fontSize: 10,
+          style: 'header',
+          margin: [400, 2, 10, 0],
+        },
+        {
+          text: pdfInfo.optionalAddress,
+          fontSize: 10,
+          style: 'header',
+          margin: [400, 2, 10, 0],
+        },
+        // if you set the value of text to an array instead of a string, you'll be able
+        // to style any part individually
+        { text: pdfInfo.ort, fontSize: 10, margin: [400, 2, 10, 0] },
+        { text: pdfInfo.plz, fontSize: 10, margin: [400, 2, 10, 0] },
+        { text: pdfInfo.staat, fontSize: 10, margin: [400, 2, 10, 10] },
+        {
+          canvas: [
+            {
+              type: 'line',
+              x1: 0,
+              y1: 5,
+              x2: 400 - 2 * 40,
+              y2: 5,
+              lineWidth: 0.5,
+            },
+          ],
+        },
+        { text: pdfInfo.sender, fontSize: 10, margin: [40, 0, 10, 0] },
+        {
+          canvas: [
+            {
+              type: 'line',
+              x1: 0,
+              y1: 5,
+              x2: 400 - 2 * 40,
+              y2: 5,
+              lineWidth: 0.5,
+            },
+          ],
+        },
+        {
+          text: pdfInfo.recipient,
+          fontSize: 15,
+          margin: [40, 50, 10, 0],
+          bold: false,
+        },
+        {
+          canvas: [
+            {
+              type: 'line',
+              x1: 0,
+              y1: 5,
+              x2: 400 - 2 * 40,
+              y2: 5,
+              lineWidth: 0.5,
+            },
+          ],
+        },
+        { text: pdfInfo.date, fontSize: 10, margin: [250, 30, 10, 0] },
+        { text: pdfInfo.body, fontSize: 12, margin: [40, 40, 10, 0] },
+      ],
+    };
+    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+    pdfDocGenerator.getDataUrl(setUrl);
+    console.log(url);
+  }
   return (
     <>
       <Head>
@@ -42,38 +149,84 @@ export default function Products(props) {
                 display: 'flex',
                 'flex-flow': 'wrap',
                 marginLeft: '0px',
-                border: '1px solid grey',
+                borderBottom: '1px solid grey',
                 'border-radius': '5px',
-                paddingBottom: '20px',
+                'box-shadow': '0px 4px 5px 1px grey',
                 marginBottom: '10px',
-                background: '#f5f7fa',
+                // background: '#f5f7fa',
               }}
               className="grid__container"
               key={`product-page-${document.id}`}
             >
               {' '}
-              <a href="/">{document.id}</a>
+              <button
+                style={{
+                  width: '900px',
+                  height: '40px',
+                  'background-color': 'Transparent',
+                  border: 'none',
+                  outline: 'none',
+                }}
+                onClick={() => createIframeUrl(document)}
+              >
+                {document.id}
+              </button>
             </div>
           ))}
         </div>
-        <div>
-          <iframe
-            style={{
-              left: '50%',
-              width: '50%',
-              position: 'absolute',
-              height: '80%',
-            }}
-            // height: 100%;
-            // right: 0;
-            // top: 0;
-            // bottom: 0;
-            // position: absolute;"
-            title="hello"
-            src={url}
-            width="100%"
-            height="500px"
-          />
+        <div style={{ display: 'flex' }}>
+          <div>
+            <iframe
+              style={{
+                left: '300px',
+                width: '47%',
+                position: 'absolute',
+                height: '80%',
+                borderRadius: '10px',
+              }}
+              frameborder="0"
+              title="hello"
+              src={url}
+              width="100%"
+              height="500px"
+            />
+
+            <div
+              style={{
+                paddingLeft: '1100px',
+                marginTop: '10px',
+                maxWidth: '100%',
+              }}
+            >
+              <Container style={{ marginLeft: '10px' }}>
+                <Typography
+                  component="h3"
+                  variant="h2"
+                  align="center"
+                  color="textPrimary"
+                  gutterBottom
+                  style={{ 'font-size': '14px' }}
+                >
+                  Here is how your letter would look like (according to the
+                  standard of Windowed letter)
+                </Typography>
+                <Typography
+                  variant="h5"
+                  align="center"
+                  color="textSecondary"
+                  component="p"
+                  style={{ 'font-size': '12px' }}
+                >
+                  If you are satisfied with the result, proceed to Cart
+                </Typography>
+                <Product
+                  clickHandler={handleClick}
+                  productPrice={props.productPrices[0]}
+                />
+              </Container>
+            </div>
+          </div>
+          <div></div>
         </div>
       </div>
     </>
@@ -88,8 +241,30 @@ export async function getServerSideProps(context) {
     (document) => (document.date = document.date.toString()),
   );
 
-  console.log('log :', documentsInfo);
+  const { Stripe } = await import('stripe');
+  const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
+  const price = await stripeServer.prices.retrieve(process.env.PRICE);
+  const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
+
   return {
-    props: { documentsInfo }, // will be passed to the page component as props
+    props: {
+      documentsInfo,
+      publicKey,
+
+      productPrices: [
+        {
+          priceId: 'PRICE',
+          unitAmount: price.unit_amount,
+          currency: price.currency,
+        },
+        {
+          priceId: 'PRICE2',
+          unitAmount: price2.unit_amount,
+          currency: price2.currency,
+        },
+      ],
+    }, // will be passed to the page component as props
   };
 }

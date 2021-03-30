@@ -254,6 +254,3 @@ export async function getDocumentbyuserId(user_id) {
   `;
   return documentsInfo;
 }
-
-// WHERE
-// user_id = ${user_id};

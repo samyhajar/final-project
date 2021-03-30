@@ -6,6 +6,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Button, Container, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
+import { format, compareAsc } from 'date-fns';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Products(props) {
@@ -83,7 +84,7 @@ export default function Products(props) {
             },
           ],
         },
-        { text: pdfInfo.date.getDay(), fontSize: 10, margin: [450, 30, 10, 0] },
+        { text: pdfInfo.date, fontSize: 10, margin: [250, 30, 10, 0] },
         { text: pdfInfo.body, fontSize: 12, margin: [40, 40, 10, 0] },
       ],
     };
@@ -124,7 +125,7 @@ export default function Products(props) {
                 marginLeft: '0px',
                 borderBottom: '1px solid grey',
                 'border-radius': '5px',
-                'box-shadow': '0px 4px 2px -3px #556cd6',
+                'box-shadow': '0px 4px 5px 1px grey',
                 marginBottom: '10px',
                 // background: '#f5f7fa',
               }}
@@ -171,7 +172,7 @@ export default function Products(props) {
                 maxWidth: '100%',
               }}
             >
-              <Container style={{ marginLeft: '300px' }}>
+              <Container style={{ marginLeft: '10px' }}>
                 <Typography
                   component="h3"
                   variant="h2"
@@ -199,7 +200,7 @@ export default function Products(props) {
                   color="primary"
                   align="center"
                   style={{
-                    marginLeft: '320px',
+                    marginLeft: '120px',
                     marginTop: '70px',
                     // paddingLeft: '1000px',
                     // paddingRight: '100px',
