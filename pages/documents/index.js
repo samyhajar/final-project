@@ -197,7 +197,6 @@ export default function Products(props) {
                   variant="outlined"
                   color="primary"
                   variant="contained"
-                  color="primary"
                   align="center"
                   style={{
                     marginLeft: '120px',

@@ -2,7 +2,7 @@ import { Button } from '@material-ui/core';
 import Link from 'next/link';
 
 export default function Success(props) {
-  console.log(props.session.id);
+  console.log(props.session, null, 2);
   return (
     <section>
       <h1>Successful Transaction</h1>
@@ -22,14 +22,14 @@ export default function Success(props) {
         </p>
         <p>
           <span> Payment status:</span> {'   '}
-          {props.session.payment_status}
+          {JSON.stringify(props.session.metadata)}
         </p>
-        <pre>{JSON.stringify(props.session.metadata, null, 2)}</pre>
+        <pre>{JSON.stringify(props.session, null, 2)}</pre>
       </div>
       <Link href="/">
         <a>home</a>
       </Link>
-      <Link href="/pages/puppeteer">Hello</Link>
+      <Link href="/util/puppeteer">Hello</Link>
     </section>
   );
 }

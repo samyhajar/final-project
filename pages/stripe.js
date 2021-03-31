@@ -4,7 +4,7 @@ import { Product } from '../components/Product';
 export default function Home(props) {
   const stripeLoader = loadStripe(props.publicKey);
 
-  async function handleClick(mode, priceID, quantity = 1) {
+  async function handleClick(mode, priceID, quantity = 1, id) {
     const stripeClient = await stripeLoader;
 
     const { sessionId } = await fetch('/api/stripeIndex', {
@@ -16,6 +16,7 @@ export default function Home(props) {
         quantity,
         mode,
         priceID,
+        id,
       }),
     }).then((res) => res.json());
 
