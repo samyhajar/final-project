@@ -1,96 +1,131 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { GetServerSidePropsContext } from 'next';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Button, Container, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
 import { format, compareAsc } from 'date-fns';
+import { loadStripe } from '@stripe/stripe-js';
+import { Product } from '../../components/Product';
+import creator from '../../pages/creator';
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Products(props) {
   const [url, setUrl] = useState('');
+  const [documentId, setDocumentId] = useState(1);
   const router = useRouter();
+  const stripeLoader = loadStripe(props.publicKey);
+
+  useEffect(() => {
+    async function createIframeUrl(pdfInput) {
+      if (!process.browser) return;
+      const docDefinition = {
+        content: [
+          // if you don't need styles, you can use a simple string to define a paragraph
+          // using a { text: '...' } object lets you set styling properties
+          { text: pdfInput.name, fontSize: 10, margin: [400, 2, 10, 0] },
+          {
+            text: pdfInput.address,
+            fontSize: 10,
+            style: 'header',
+            margin: [400, 2, 10, 0],
+          },
+          {
+            text: pdfInput.optionalAddress,
+            fontSize: 10,
+            style: 'header',
+            margin: [400, 2, 10, 0],
+          },
+          // if you set the value of text to an array instead of a string, you'll be able
+          // to style any part individually
+          { text: pdfInput.ort, fontSize: 10, margin: [400, 2, 10, 0] },
+          { text: pdfInput.plz, fontSize: 10, margin: [400, 2, 10, 0] },
+          { text: pdfInput.staat, fontSize: 10, margin: [400, 2, 10, 10] },
+          {
+            canvas: [
+              {
+                type: 'line',
+                x1: 0,
+                y1: 5,
+                x2: 400 - 2 * 40,
+                y2: 5,
+                lineWidth: 0.5,
+              },
+            ],
+          },
+          { text: pdfInput.sender, fontSize: 10, margin: [40, 0, 10, 0] },
+          {
+            canvas: [
+              {
+                type: 'line',
+                x1: 0,
+                y1: 5,
+                x2: 400 - 2 * 40,
+                y2: 5,
+                lineWidth: 0.5,
+              },
+            ],
+          },
+          {
+            text: pdfInput.recipient,
+            fontSize: 15,
+            margin: [40, 50, 10, 0],
+            bold: false,
+          },
+          {
+            canvas: [
+              {
+                type: 'line',
+                x1: 0,
+                y1: 5,
+                x2: 400 - 2 * 40,
+                y2: 5,
+                lineWidth: 0.5,
+              },
+            ],
+          },
+          { text: pdfInput.date, fontSize: 10, margin: [250, 30, 10, 0] },
+          { text: pdfInput.body, fontSize: 12, margin: [40, 40, 10, 0] },
+        ],
+      };
+      const pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      pdfDocGenerator.getDataUrl(setUrl);
+    }
+    const document = props.documentsInfo.find((doc) => {
+      return doc.id === documentId;
+    });
+    if (documentId) createIframeUrl(document);
+  }, [documentId]);
 
   // date back to string and back to date
   props.documentsInfo.forEach(
     (document) => (document.date = new Date(document.date)),
   );
-  async function createIframeUrl(pdfInfo) {
-    if (!process.browser) return;
-    var docDefinition = {
-      content: [
-        // if you don't need styles, you can use a simple string to define a paragraph
-        // using a { text: '...' } object lets you set styling properties
-        { text: pdfInfo.name, fontSize: 10, margin: [400, 2, 10, 0] },
-        {
-          text: pdfInfo.address,
-          fontSize: 10,
-          style: 'header',
-          margin: [400, 2, 10, 0],
-        },
-        {
-          text: pdfInfo.optionalAddress,
-          fontSize: 10,
-          style: 'header',
-          margin: [400, 2, 10, 0],
-        },
-        // if you set the value of text to an array instead of a string, you'll be able
-        // to style any part individually
-        { text: pdfInfo.ort, fontSize: 10, margin: [400, 2, 10, 0] },
-        { text: pdfInfo.plz, fontSize: 10, margin: [400, 2, 10, 0] },
-        { text: pdfInfo.staat, fontSize: 10, margin: [400, 2, 10, 10] },
-        {
-          canvas: [
-            {
-              type: 'line',
-              x1: 0,
-              y1: 5,
-              x2: 400 - 2 * 40,
-              y2: 5,
-              lineWidth: 0.5,
-            },
-          ],
-        },
-        { text: pdfInfo.sender, fontSize: 10, margin: [40, 0, 10, 0] },
-        {
-          canvas: [
-            {
-              type: 'line',
-              x1: 0,
-              y1: 5,
-              x2: 400 - 2 * 40,
-              y2: 5,
-              lineWidth: 0.5,
-            },
-          ],
-        },
-        {
-          text: pdfInfo.recipient,
-          fontSize: 15,
-          margin: [40, 50, 10, 0],
-          bold: false,
-        },
-        {
-          canvas: [
-            {
-              type: 'line',
-              x1: 0,
-              y1: 5,
-              x2: 400 - 2 * 40,
-              y2: 5,
-              lineWidth: 0.5,
-            },
-          ],
-        },
-        { text: pdfInfo.date, fontSize: 10, margin: [250, 30, 10, 0] },
-        { text: pdfInfo.body, fontSize: 12, margin: [40, 40, 10, 0] },
-      ],
-    };
-    const pdfDocGenerator = pdfMake.createPdf(docDefinition);
-    pdfDocGenerator.getDataUrl(setUrl);
+
+  async function handleClick(mode, envVarKey, quantity = 1) {
+    const stripeClient = await stripeLoader;
+
+    const { sessionId } = await fetch('/api/stripeIndex', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        quantity,
+        mode,
+        envVarKey,
+        documentId,
+      }),
+    }).then((res) => res.json());
+
+    stripeClient.redirectToCheckout({
+      sessionId,
+    });
   }
+
   return (
     <>
       <Head>
@@ -141,7 +176,7 @@ export default function Products(props) {
                   border: 'none',
                   outline: 'none',
                 }}
-                onClick={() => createIframeUrl(document)}
+                onClick={() => setDocumentId(document.id)}
               >
                 {document.id}
               </button>
@@ -158,7 +193,7 @@ export default function Products(props) {
                 height: '80%',
                 borderRadius: '10px',
               }}
-              frameborder="0"
+              frameBorder="0"
               title="hello"
               src={url}
               width="100%"
@@ -193,21 +228,10 @@ export default function Products(props) {
                 >
                   If you are satisfied with the result, proceed to Cart
                 </Typography>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  variant="contained"
-                  align="center"
-                  style={{
-                    marginLeft: '120px',
-                    marginTop: '70px',
-                    // paddingLeft: '1000px',
-                    // paddingRight: '100px',
-                  }}
-                  onClick={() => router.push('/stripe')}
-                >
-                  Proceed to Cart
-                </Button>
+                <Product
+                  clickHandler={handleClick}
+                  productPrices={props.productPrices[0]}
+                />
               </Container>
             </div>
           </div>
@@ -225,8 +249,29 @@ export async function getServerSideProps(context) {
     (document) => (document.date = document.date.toString()),
   );
 
-  console.log('log :', documentsInfo);
+  const { Stripe } = await import('stripe');
+  const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const publicKey = process.env.STRIPE_PUBLISHABLE_KEY;
+
+  const price = await stripeServer.prices.retrieve(process.env.PRICE);
+  const price2 = await stripeServer.prices.retrieve(process.env.PRICE2);
+
   return {
-    props: { documentsInfo }, // will be passed to the page component as props
+    props: {
+      documentsInfo,
+      publicKey,
+      productPrices: [
+        {
+          envVarKey: 'PRICE',
+          unitAmount: price.unit_amount,
+          currency: price.currency,
+        },
+        // {
+        //   envVarKey: 'PRICE2',
+        //   unitAmount: price2.unit_amount,
+        //   currency: price2.currency,
+        // },
+      ],
+    },
   };
 }

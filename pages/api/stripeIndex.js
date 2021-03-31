@@ -28,9 +28,6 @@ export default async function handler(req, res) {
       {
         price: process.env[envVarKey],
         quantity: quantity,
-        // currency: 'eur',
-        // amount: 200,
-        // name: 'enveloppe',
       },
     ],
     // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param

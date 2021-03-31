@@ -23,11 +23,11 @@ export function Product({ clickHandler, productPrices, id }) {
             color="primary"
             style={{ marginLeft: '100px' }}
             onClick={() =>
-              clickHandler('payment', productPrices[0].envVarKey, quantity)
+              clickHandler('payment', productPrices.envVarKey, quantity)
             }
           >
-            Buy {currencySymbol[productPrices[0].currency]}{' '}
-            {(productPrices[0].unitAmount / 100) * quantity}
+            Buy {currencySymbol[productPrices.currency]}{' '}
+            {(productPrices.unitAmount / 100) * quantity}
           </Button>
         </div>
       </div>
