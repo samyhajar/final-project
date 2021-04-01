@@ -251,6 +251,30 @@ export async function getDocumentbyuserId(user_id) {
      *
      FROM
     documents
+    WHERE
   `;
   return documentsInfo;
+}
+
+export async function getStatusPendingById() {
+  const statusIdPending = sql`
+  SELECT
+   id
+   FROM
+  statuses
+  WHERE title = 'pending'
+  `;
+  return statusIdPending;
+}
+
+export async function createStatus(statusId, documentId, stripeSessionsId) {
+  const statusPending = sql`
+  INSERT INTO stripe_charges
+    (status_id, document_id, stripe_sessions_id)
+  VALUES
+    (${statusId} , ${documentId}, ${stripeSessionsId})
+
+  RETURNING *
+  `;
+  return camelcaseRecords(statusPending)[0];
 }

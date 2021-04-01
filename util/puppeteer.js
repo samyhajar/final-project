@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+require('dotenv-safe').config();
 
 async function main() {
   const browser = await puppeteer.launch({
@@ -11,8 +12,8 @@ async function main() {
   const url = 'https://www.tages-post.at/start.html';
 
   await page.goto(url);
-  await page.type('#username', 'superuserpost');
-  await page.type('#password', 'SuperSamy20B');
+  await page.type('#username', process.env.POST_LOGIN);
+  await page.type('#password', process.env.POST_PASSWORD);
 
   // click and wait for navigation
 

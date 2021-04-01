@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 import { format, compareAsc } from 'date-fns';
 import { loadStripe } from '@stripe/stripe-js';
 import { Product } from '../../components/Product';
-import creator from '../../pages/creator';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -207,7 +206,7 @@ export default function Products(props) {
                 maxWidth: '100%',
               }}
             >
-              <Container style={{ marginLeft: '10px' }}>
+              <Container style={{ marginLeft: '200px' }}>
                 <Typography
                   component="h3"
                   variant="h2"

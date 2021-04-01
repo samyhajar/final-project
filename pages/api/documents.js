@@ -4,6 +4,8 @@ import {
   createDocument,
   getSessionByToken,
   getUserIdFromSessionToken,
+  createStatus,
+  getStatusPendingById,
 } from '../../util/database';
 
 export default async function handler(req, res) {
@@ -11,6 +13,9 @@ export default async function handler(req, res) {
     const documents = await getDocumentbyuserId();
     res.json({ documents: documents });
     console.log(documents);
+
+    // const status = await getStatusPendingById();
+    // res.json({ status: status });
   }
 
   if (req.method === 'POST') {
@@ -30,5 +35,12 @@ export default async function handler(req, res) {
       user.userId,
     );
     res.json(document);
+
+    // const order = await createStatus(
+    //   req.body.statusId,
+    //   req.body.documentId,
+    //   req.body.stripeSessionsId,
+    // );
+    // res.json(order);
   }
 }
