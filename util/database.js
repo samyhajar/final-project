@@ -286,7 +286,7 @@ export async function addSessionToOrder(sessionId, rowId) {
 }
 
 export async function successStatusByPayment(rowId) {
-  const statusSucessFull = await sql`
+  const statusSuccessFull = await sql`
     SELECT
     id
     FROM
@@ -300,7 +300,7 @@ export async function successStatusByPayment(rowId) {
     SET status_id = 2
     WHERE id = ${rowId}
   `;
-  return statusSucessFull;
+  return statusSuccessFull;
 }
 
 export async function rejectedStatusByPayment(rowId) {

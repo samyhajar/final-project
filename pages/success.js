@@ -1,8 +1,8 @@
 import { Button } from '@material-ui/core';
 import Link from 'next/link';
+// import StripeIndex from '../pages/api/stripeIndex';
 
 export default function Success(props) {
-  console.log(props.session, null, 2);
   return (
     <section>
       <h1>Successful Transaction</h1>
@@ -20,6 +20,7 @@ export default function Success(props) {
           <span> Customer email:</span> {'   '}
           {props.session.customer_details.email}
         </p>
+        <p>{props.session.payment_status}</p>
         <p>
           <span> Payment status:</span> {'   '}
           {JSON.stringify(props.session.metadata)}
@@ -37,11 +38,16 @@ export default function Success(props) {
 export async function getServerSideProps(ctx) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { Stripe } = await import('stripe');
+  const { successStatusByPayment } = await import('../util/database');
 
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;
+
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
+
+  successStatusByPayment(JSON.parse(session.metadata.stripeChargesId));
+  console.log(JSON.parse(session.metadata.stripeChargesId));
 
   return { props: { session } };
 }

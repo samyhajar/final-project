@@ -43,7 +43,6 @@ export default async function handler(req, res) {
   });
 
   addSessionToOrder(session.id, stripeChargesId);
-  successStatusByPayment();
 
   res.send({
     sessionId: session.id,
@@ -54,4 +53,6 @@ export default async function handler(req, res) {
 // CREATE THE ORDER ROW (THIS GIVES YOU ORDER ID ) ✅
 // CALL PASSING A ROW ID TO STRIPE -> response SESSION ID✅
 // UPDATE THE STRIPE SESSION ID✅
-// UPDATE STATUS OF STRIPE CHARGES AFTER SUCCESSFULL/FAILED PAYMENT
+// UPDATE STATUS OF STRIPE CHARGES AFTER SUCCESSFUL/FAILED PAYMENT
+// -> SQL FUNCTIONS CREATED ✅
+// -> ADD EVENT HANDLER
