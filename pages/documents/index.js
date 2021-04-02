@@ -18,6 +18,8 @@ export default function Products(props) {
   const router = useRouter();
   const stripeLoader = loadStripe(props.publicKey);
 
+  console.log('props:', props);
+
   useEffect(() => {
     async function createIframeUrl(pdfInput) {
       if (!process.browser) return;
@@ -206,7 +208,7 @@ export default function Products(props) {
                 maxWidth: '100%',
               }}
             >
-              <Container style={{ marginLeft: '200px' }}>
+              <Container>
                 <Typography
                   component="h3"
                   variant="h2"
@@ -242,11 +244,13 @@ export default function Products(props) {
 
 export async function getServerSideProps(context) {
   const { getDocumentbyuserId } = await import('../../util/database');
-
+  require('dotenv-safe').config();
   const documentsInfo = await getDocumentbyuserId();
   documentsInfo.forEach(
     (document) => (document.date = document.date.toString()),
   );
+
+  // const createStat = await createStatus();
 
   const { Stripe } = await import('stripe');
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);

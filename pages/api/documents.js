@@ -4,8 +4,6 @@ import {
   createDocument,
   getSessionByToken,
   getUserIdFromSessionToken,
-  createStatus,
-  getStatusPendingById,
 } from '../../util/database';
 
 export default async function handler(req, res) {
@@ -13,9 +11,6 @@ export default async function handler(req, res) {
     const documents = await getDocumentbyuserId();
     res.json({ documents: documents });
     console.log(documents);
-
-    // const status = await getStatusPendingById();
-    // res.json({ status: status });
   }
 
   if (req.method === 'POST') {

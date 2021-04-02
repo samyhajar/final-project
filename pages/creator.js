@@ -292,6 +292,11 @@ export default function AppComponent() {
               noValidate
             >
               <input
+                style={{
+                  border: '1px solid',
+                  borderRadius: '5px',
+                  borderDecoration: 'none',
+                }}
                 type="date"
                 value={date}
                 onChange={(event) => setDate(event.currentTarget.value)}

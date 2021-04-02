@@ -1,8 +1,9 @@
 import { generateToken } from './sessions';
 import camelcaseKeys from 'camelcase-keys';
 import postgres from 'postgres';
+const path = require('path');
 
-require('dotenv-safe').config();
+require('dotenv').config();
 
 const sql = postgres(
   'postgres://finalproject:finalproject@localhost:5432/finalproject',
@@ -251,30 +252,71 @@ export async function getDocumentbyuserId(user_id) {
      *
      FROM
     documents
-    WHERE
+
   `;
   return documentsInfo;
 }
 
-export async function getStatusPendingById() {
-  const statusIdPending = sql`
-  SELECT
-   id
-   FROM
-  statuses
-  WHERE title = 'pending'
+export async function createOrder(documentId) {
+  const status = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Pending';
   `;
-  return statusIdPending;
+
+  const rowId = await sql`
+    INSERT INTO stripe_charges
+    (status_id, document_id)
+    VALUES
+    (${status[0].id} , ${documentId})
+    RETURNING *
+  `;
+  return rowId[0].id;
 }
 
-export async function createStatus(statusId, documentId, stripeSessionsId) {
-  const statusPending = sql`
-  INSERT INTO stripe_charges
-    (status_id, document_id, stripe_sessions_id)
-  VALUES
-    (${statusId} , ${documentId}, ${stripeSessionsId})
-
-  RETURNING *
+export async function addSessionToOrder(sessionId, rowId) {
+  await sql`
+    UPDATE stripe_charges
+    SET stripe_sessions_id =  ${sessionId}
+    WHERE id = ${rowId}
   `;
-  return camelcaseRecords(statusPending)[0];
+}
+
+export async function successStatusByPayment(rowId) {
+  const statusSucessFull = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Successful';
+    `;
+
+  await sql`
+    UPDATE stripe_charges
+    SET status_id = 2
+    WHERE id = ${rowId}
+  `;
+  return statusSucessFull;
+}
+
+export async function rejectedStatusByPayment(rowId) {
+  const statusRejected = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Rejected';
+    `;
+
+  await sql`
+    UPDATE stripe_charges
+    SET status_id = 3
+    WHERE id = ${rowId}
+  `;
+  return statusRejected;
 }
