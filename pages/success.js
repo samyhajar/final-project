@@ -47,7 +47,6 @@ export async function getServerSideProps(ctx) {
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
 
   successStatusByPayment(JSON.parse(session.metadata.stripeChargesId));
-  console.log(JSON.parse(session.metadata.stripeChargesId));
 
   return { props: { session } };
 }

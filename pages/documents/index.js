@@ -6,7 +6,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Button, Container, Typography } from '@material-ui/core';
 import { useRouter } from 'next/router';
-import { format, compareAsc } from 'date-fns';
+
+import { format } from 'date-fns/format';
 import { loadStripe } from '@stripe/stripe-js';
 import { Product } from '../../components/Product';
 
@@ -17,6 +18,7 @@ export default function Products(props) {
   const [documentId, setDocumentId] = useState(1);
   const router = useRouter();
   const stripeLoader = loadStripe(props.publicKey);
+  const today = new Date();
 
   console.log('props:', props);
 
@@ -25,8 +27,6 @@ export default function Products(props) {
       if (!process.browser) return;
       const docDefinition = {
         content: [
-          // if you don't need styles, you can use a simple string to define a paragraph
-          // using a { text: '...' } object lets you set styling properties
           { text: pdfInput.name, fontSize: 10, margin: [400, 2, 10, 0] },
           {
             text: pdfInput.address,
@@ -40,11 +40,10 @@ export default function Products(props) {
             style: 'header',
             margin: [400, 2, 10, 0],
           },
-          // if you set the value of text to an array instead of a string, you'll be able
-          // to style any part individually
           { text: pdfInput.ort, fontSize: 10, margin: [400, 2, 10, 0] },
           { text: pdfInput.plz, fontSize: 10, margin: [400, 2, 10, 0] },
           { text: pdfInput.staat, fontSize: 10, margin: [400, 2, 10, 10] },
+          { text: pdfInput, fontSize: 10, margin: [400, 2, 10, 60] },
           {
             canvas: [
               {
@@ -73,7 +72,7 @@ export default function Products(props) {
           {
             text: pdfInput.recipient,
             fontSize: 15,
-            margin: [40, 50, 10, 0],
+            margin: [40, 0, 10, 0],
             bold: false,
           },
           {
@@ -88,7 +87,18 @@ export default function Products(props) {
               },
             ],
           },
-          { text: pdfInput.date, fontSize: 10, margin: [250, 30, 10, 0] },
+          {
+            text:
+              pdfInput.ort +
+              ', am ' +
+              pdfInput.date.getDate() +
+              '.' +
+              (pdfInput.date.getMonth() + 1) +
+              '.' +
+              pdfInput.date.getFullYear(),
+            fontSize: 10,
+            margin: [390, 30, 10, 0],
+          },
           { text: pdfInput.body, fontSize: 12, margin: [40, 40, 10, 0] },
         ],
       };
@@ -157,13 +167,12 @@ export default function Products(props) {
             <div
               style={{
                 display: 'flex',
-                'flex-flow': 'wrap',
+                flexFlow: 'wrap',
                 marginLeft: '0px',
                 borderBottom: '1px solid grey',
-                'border-radius': '5px',
-                'box-shadow': '0px 4px 5px 1px grey',
+                borderRadius: '5px',
+                boxShadow: '0px 4px 5px 1px grey',
                 marginBottom: '10px',
-                // background: '#f5f7fa',
               }}
               className="grid__container"
               key={`product-page-${document.id}`}

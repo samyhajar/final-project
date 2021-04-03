@@ -18,7 +18,6 @@ export default function Success(props) {
         </p>
         <p>
           <span> Customer email:</span> {'   '}
-          {props.session.customer_details.email}
         </p>
         <p>
           <span> Payment status:</span> {'   '}

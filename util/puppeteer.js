@@ -1,4 +1,7 @@
 const puppeteer = require('puppeteer');
+const { resolve } = require('path');
+
+require('dotenv').config({ path: resolve(__dirname, '../util/.env') });
 
 async function main() {
   const browser = await puppeteer.launch({
@@ -24,7 +27,7 @@ async function main() {
     page.waitForFileChooser(),
     page.click('input[type=file]'),
   ]);
-  // Choses a PDF
+  // Chooses a PDF
   await fileChooser.accept([
     '/Users/sam/projects/final-project/pdf/rechnung.pdf',
   ]);

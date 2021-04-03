@@ -30,12 +30,5 @@ export default async function handler(req, res) {
       user.userId,
     );
     res.json(document);
-
-    // const order = await createStatus(
-    //   req.body.statusId,
-    //   req.body.documentId,
-    //   req.body.stripeSessionsId,
-    // );
-    // res.json(order);
   }
 }

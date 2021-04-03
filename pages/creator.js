@@ -3,15 +3,16 @@ import { Paper, input, Button, Typography } from '@material-ui/core';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { compareAsc, format } from 'date-fns';
 // import { getServerSideProps } from './logout';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 // TODO LIST :
-// FiX HOME PAGE MAKE IT NICE BABY !!!!!!!!!!!!!
-// Preview of saved document that is State Active Clickable Sidebar (iframe?) //
-// CREATE A COMPONENT
+// FiX HOME PAGE MAKE IT NICE BABY !!!!!!!!!!!!!✅
+// Preview of saved document that is State Active Clickable ✅Sidebar (iframe?) //
+// CREATE A COMPONENT✅
 // Add link to edit document ( go to save and brings you back to document list )
-// link that redirects you the payment page of the post (puppeteer)
+
 // END TO END TESTS, UNIT TEST and 5 Typescript files
 
 // Additional Features:
@@ -52,7 +53,7 @@ export default function AppComponent() {
       }),
     });
     if (!process.browser) return;
-    var docDefinition = {
+    const docDefinition = {
       content: [
         // if you don't need styles, you can use a simple string to define a paragraph
         // using a { text: '...' } object lets you set styling properties
@@ -93,7 +94,7 @@ export default function AppComponent() {
             },
           ],
         },
-        { text: recipient, fontSize: 15, margin: [40, 30, 10, 0], bold: false },
+        { text: recipient, fontSize: 15, margin: [40, 20, 10, 0], bold: false },
         {
           canvas: [
             {
@@ -106,7 +107,7 @@ export default function AppComponent() {
             },
           ],
         },
-        { text: date, fontSize: 10, margin: [450, 30, 10, 0] },
+        { text: date, fontSize: 10, margin: [320, 10, 10, 0] },
         { text: body, fontSize: 12, margin: [40, 40, 10, 0] },
       ],
     };
@@ -277,8 +278,8 @@ export default function AppComponent() {
                 }}
                 id="outlined-multiline-static"
                 label="recipient"
-                multiline
                 variant="outlined"
+                rows={10}
               />
             </form>
             <form
