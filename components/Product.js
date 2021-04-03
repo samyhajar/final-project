@@ -13,21 +13,21 @@ export function Product({ clickHandler, productPrices, id }) {
   return (
     <div>
       <div style={{ marginLeft: '110px', marginBottom: '10px' }}>
-        <div style={{ marginLeft: '110px', marginTop: '30px' }}>
+        {/* <div style={{ marginLeft: '110px', marginTop: '30px' }}>
           <Counter currentValue={quantity} newValueSetter={setQuantity} />
-        </div>
+        </div> */}
         <br />
         <div>
           <Button
             variant="contained"
             color="primary"
-            style={{ marginLeft: '100px' }}
+            style={{ marginTop: '100px' }}
             onClick={() =>
               clickHandler('payment', productPrices.envVarKey, quantity)
             }
           >
             Buy {currencySymbol[productPrices.currency]}{' '}
-            {(productPrices.unitAmount / 100) * quantity}
+            {/* {(productPrices.unitAmount / 100) * quantity} */}
           </Button>
         </div>
       </div>

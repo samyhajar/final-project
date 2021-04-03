@@ -40,8 +40,12 @@ export default function Products(props) {
             style: 'header',
             margin: [400, 2, 10, 0],
           },
-          { text: pdfInput.ort, fontSize: 10, margin: [400, 2, 10, 0] },
-          { text: pdfInput.plz, fontSize: 10, margin: [400, 2, 10, 0] },
+          {
+            text: pdfInput.ort + ',' + ' ' + pdfInput.plz,
+            fontSize: 10,
+            margin: [400, 2, 10, 0],
+          },
+          // { text: pdfInput.plz, fontSize: 10, margin: [400, 2, 10, 0] },
           { text: pdfInput.staat, fontSize: 10, margin: [400, 2, 10, 10] },
           { text: pdfInput, fontSize: 10, margin: [400, 2, 10, 60] },
           {
@@ -56,7 +60,7 @@ export default function Products(props) {
               },
             ],
           },
-          { text: pdfInput.sender, fontSize: 10, margin: [40, 0, 10, 0] },
+          { text: pdfInput.sender, fontSize: 10, margin: [20, 0, 10, 0] },
           {
             canvas: [
               {
@@ -72,8 +76,8 @@ export default function Products(props) {
           {
             text: pdfInput.recipient,
             fontSize: 10,
-            margin: [40, 0, 10, 0],
-            bold: false,
+            margin: [20, 0, 10, 0],
+            bold: true,
           },
           {
             canvas: [
@@ -99,7 +103,7 @@ export default function Products(props) {
             fontSize: 10,
             margin: [390, 30, 10, 0],
           },
-          { text: pdfInput.body, fontSize: 12, margin: [40, 40, 10, 0] },
+          { text: pdfInput.body, fontSize: 12, margin: [20, 40, 20, 0] },
         ],
       };
       const pdfDocGenerator = pdfMake.createPdf(docDefinition);
@@ -196,6 +200,7 @@ export default function Products(props) {
         <div style={{ display: 'flex' }}>
           <div>
             <iframe
+              value="75%"
               style={{
                 left: '300px',
                 width: '47%',
@@ -236,7 +241,7 @@ export default function Products(props) {
                   component="p"
                   style={{ 'font-size': '12px' }}
                 >
-                  If you are satisfied with the result, proceed to Cart
+                  If you are satisfied with the result, proceed to Checkout
                 </Typography>
                 <Product
                   clickHandler={handleClick}
