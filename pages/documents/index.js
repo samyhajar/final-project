@@ -71,7 +71,7 @@ export default function Products(props) {
           },
           {
             text: pdfInput.recipient,
-            fontSize: 15,
+            fontSize: 10,
             margin: [40, 0, 10, 0],
             bold: false,
           },
