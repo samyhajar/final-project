@@ -4,6 +4,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { compareAsc, format } from 'date-fns';
+
 // import { getServerSideProps } from './logout';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -322,10 +323,8 @@ export default function AppComponent() {
                   marginLeft: '30px',
                   padding: '5px',
                   marginTop: '40px',
-                  // outline: 'transparent',
                   background: 'transparent',
-                  // border: 'none',
-                  'border-radius': '5px',
+                  borderRadius: '5px',
                 }}
                 rows={50}
                 margin="normal"
@@ -340,7 +339,7 @@ export default function AppComponent() {
         </div>
         <div>
           <Typography
-            style={{ marginTop: '200px', marginLeft: '90px' }}
+            style={{ marginTop: '200px', marginLeft: '70px' }}
             align="center"
             color="textSecondary"
             component="p"
@@ -354,7 +353,7 @@ export default function AppComponent() {
             variant="contained"
             color="primary"
             align="center"
-            style={{ marginLeft: '370px', marginTop: '100px' }}
+            style={{ marginLeft: '70px', marginTop: '100px' }}
             onClick={createDocument}
           >
             Save & Preview
