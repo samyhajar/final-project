@@ -16,11 +16,8 @@ import {
 } from '@material-ui/core';
 import Description from '@material-ui/icons/Description';
 import { useRouter } from 'next/router';
-
-import { format } from 'date-fns/format';
 import { loadStripe } from '@stripe/stripe-js';
 import { Product } from '../../components/Product';
-import { getMonth } from 'date-fns';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -29,7 +26,6 @@ export default function Products(props) {
   const [documentId, setDocumentId] = useState(1);
   const router = useRouter();
   const stripeLoader = loadStripe(props.publicKey);
-  const today = new Date();
 
   console.log('props:', props);
 
@@ -46,7 +42,7 @@ export default function Products(props) {
             margin: [400, 2, 10, 0],
           },
           {
-            text: pdfInput.optionalAddress,
+            text: pdfInput.optionaladdress,
             fontSize: 10,
             style: 'header',
             margin: [400, 2, 10, 0],
@@ -60,7 +56,7 @@ export default function Products(props) {
           {
             text: pdfInput.staat,
             fontSize: 10,
-            margin: [400, 2, 10, 10],
+            margin: [400, 2, 10, 80],
           },
 
           // {
@@ -75,9 +71,9 @@ export default function Products(props) {
             canvas: [
               {
                 type: 'line',
-                x1: 0,
+                x1: 20,
                 y1: 5,
-                x2: 400 - 2 * 40,
+                x2: 350 - 2 * 40,
                 y2: 5,
                 lineWidth: 0.5,
               },
@@ -88,21 +84,21 @@ export default function Products(props) {
               pdfInput.name +
               pdfInput.address +
               ' ' +
-              pdfInput.optionalAddress +
+              pdfInput.optionaladdress +
               pdfInput.ort +
               ' ' +
               pdfInput.plz +
               pdfInput.staat,
             fontSize: 10,
-            margin: [0, 2, 10, 0],
+            margin: [20, 2, 10, 0],
           },
           {
             canvas: [
               {
                 type: 'line',
-                x1: 0,
+                x1: 20,
                 y1: 5,
-                x2: 400 - 2 * 40,
+                x2: 350 - 2 * 40,
                 y2: 5,
                 lineWidth: 0.5,
               },
@@ -111,46 +107,46 @@ export default function Products(props) {
           {
             text: pdfInput.recipientname,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
             text: pdfInput.recipientaddress,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
-            text: pdfInput.recipientoptionaladresse,
+            text: pdfInput.recipientoptionaladdress,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
             text: pdfInput.recipientort,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
             text: pdfInput.recipientlplz,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
             text: pdfInput.recipientstaat,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 0, 0],
             bold: true,
           },
           {
             canvas: [
               {
                 type: 'line',
-                x1: 0,
+                x1: 20,
                 y1: 5,
-                x2: 400 - 2 * 40,
+                x2: 350 - 2 * 40,
                 y2: 5,
                 lineWidth: 0.5,
               },
@@ -222,51 +218,31 @@ export default function Products(props) {
               </ListSubheader>
             }
           >
-            {props.documentsInfo.map(
-              (document) => {
-                return (
-                  <div key={document.id}>
-                    <ListItem
-                      key={document.id}
-                      onClick={() => setDocumentId(document.id)}
-                      button
-                    >
-                      <ListItemIcon>
-                        <Description />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={document.recipientname}
-                        secondary={
-                          document.date.getDate().toString() +
-                          '.' +
-                          document.date.getMonth().toString() +
-                          '.' +
-                          document.date.getFullYear().toString()
-                        }
-                      />
-                    </ListItem>
-                  </div>
-                );
-              },
-              // <div
-              //   className="grid__container"
-              //   key={`product-page-${document.id}`}
-              // >
-              //   {' '}
-              //   <button
-              //     style={{
-              //       width: '900px',
-              //       height: '40px',
-              //       'background-color': 'Transparent',
-              //       border: 'none',
-              //       outline: 'none',
-              //     }}
-              //     onClick={() => setDocumentId(document.id)}
-              //   >
-              //     {document.id}
-              //   </button>
-              // </div>
-            )}
+            {props.documentsInfo.map((document) => {
+              return (
+                <div key={document.id}>
+                  <ListItem
+                    key={document.id}
+                    onClick={() => setDocumentId(document.id)}
+                    button
+                  >
+                    <ListItemIcon>
+                      <Description />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={document.recipientname}
+                      secondary={
+                        document.date.getDate().toString() +
+                        '.' +
+                        document.date.getMonth().toString() +
+                        '.' +
+                        document.date.getFullYear().toString()
+                      }
+                    />
+                  </ListItem>
+                </div>
+              );
+            })}
           </List>
         </div>
         <div className="body">

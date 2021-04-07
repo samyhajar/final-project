@@ -3,10 +3,12 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
-
-// import StripeIndex from '../pages/api/stripeIndex';
+import puppeteer from '../util/puppeteer';
 
 export default function Success(props) {
+  useEffect(() => {
+    puppeteer();
+  }, []);
   return (
     <section
       style={{
@@ -43,7 +45,7 @@ export default function Success(props) {
         >
           <Loader
             type="TailSpin"
-            color="#556cd6"
+            color="#F7C948"
             height={80}
             width={80}
             timeout={10000}
@@ -80,7 +82,12 @@ export default function Success(props) {
 export async function getServerSideProps(ctx) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { Stripe } = await import('stripe');
-  const { successStatusByPayment } = await import('../util/database');
+  const { successStatusByPayment, successStatusByPaymentPost } = await import(
+    '../util/database'
+  );
+  const puppeteer = await import('../util/puppeteer');
+
+  // const puppeteerLols = require('puppeteer');
 
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -89,6 +96,7 @@ export async function getServerSideProps(ctx) {
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
 
   successStatusByPayment(JSON.parse(session.metadata.stripeChargesId));
+  await successStatusByPaymentPost();
 
   return { props: { session } };
 }

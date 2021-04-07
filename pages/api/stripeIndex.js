@@ -2,6 +2,7 @@ import Stripe from 'stripe';
 import {
   addSessionToOrder,
   createOrder,
+  createOrderPost,
   successStatusByPayment,
 } from '../../util/database.js';
 
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
   // STATUS OF OPENED ORDERS!
 
   const stripeChargesId = await createOrder(documentId);
+  const postOrder = await createOrderPost(documentId);
 
   const pmTypes = ['card'];
 

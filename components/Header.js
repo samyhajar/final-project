@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import { Home } from '@material-ui/icons';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // const homeLink = [{ title: `HOME`, path: `/` }];
 
@@ -32,6 +33,7 @@ const Header = (props) => {
   return (
     <AppBar position="static">
       <Toolbar>
+        <img src="/mail.png" alt="lol" />
         <Container
           maxWidth="xl"
           sx={{ display: `flex`, justifyContent: `space-between` }}

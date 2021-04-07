@@ -289,6 +289,25 @@ export async function createOrder(documentId) {
   `;
   return rowId[0].id;
 }
+export async function createOrderPost(documentId) {
+  const status = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Pending';
+  `;
+
+  const rowId = await sql`
+    INSERT INTO post_charges
+    (status_id, document_id)
+    VALUES
+    (${status[0].id} , ${documentId})
+    RETURNING *
+  `;
+  return rowId[0].id;
+}
 
 export async function addSessionToOrder(sessionId, rowId) {
   await sql`
@@ -328,6 +347,42 @@ export async function rejectedStatusByPayment(rowId) {
 
   await sql`
     UPDATE stripe_charges
+    SET status_id = 3
+    WHERE id = ${rowId}
+  `;
+  return statusRejected;
+}
+
+export async function successStatusByPaymentPost(rowId) {
+  const statusSuccessFull = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Successful';
+    `;
+
+  await sql`
+    UPDATE post_charges
+    SET status_id = 2
+    WHERE id = ${rowId}
+  `;
+  return statusSuccessFull;
+}
+
+export async function rejectedStatusByPaymentPost(rowId) {
+  const statusRejected = await sql`
+    SELECT
+    id
+    FROM
+    statuses
+    WHERE
+    title = 'Rejected';
+    `;
+
+  await sql`
+    UPDATE post_charges
     SET status_id = 3
     WHERE id = ${rowId}
   `;
