@@ -8,9 +8,13 @@ exports.up = async (sql) => {
 		ort VARCHAR(50),
 		plz INT,
 		staat VARCHAR(50),
-		sender VARCHAR(200),
-		recipient VARCHAR(200),
 		date DATE,
+		recipientName VARCHAR(100),
+		recipientAddress VARCHAR(100),
+		recipientOptionalAddress VARCHAR(100),
+		recipientOrt VARCHAR(100),
+		recipientPlz INT,
+		recipientStaat VARCHAR(100),
 		body TEXT,
 
 

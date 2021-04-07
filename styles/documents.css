@@ -1,0 +1,28 @@
+.documents {
+  display: flex;
+  background: #f5f7fa;
+}
+
+.documents .sidebar {
+  height: 100vh;
+  width: auto;
+  min-width: 300px;
+  /*position: fixed;*/
+  z-index: 0;
+  /*top: 64px;*/
+  background-color: white;
+  overflow-x: hidden;
+  padding-top: 80px;
+}
+
+.documents .body {
+  padding-top: 20px;
+  width: 50%;
+  background: #f5f7fa;
+}
+
+.documents .content {
+  width: 30%;
+  padding-top: 100px;
+  background: #f5f7fa;
+}

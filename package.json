@@ -26,6 +26,7 @@
     "csrf": "^3.1.0",
     "date-fns": "^2.19.0",
     "dotenv-safe": "^8.2.0",
+    "draft-js": "^0.11.7",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
     "html-to-image": "^1.3.21",
@@ -42,6 +43,7 @@
     "puppeteer": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-draft-wysiwyg": "^1.14.5",
     "react-loader-spinner": "^4.0.0",
     "react-reveal": "^1.2.2",
     "slate": "^0.62.0",
@@ -73,6 +75,9 @@
     "ley": "^0.7.0"
   },
   "browser": {
-    "html-pdf": false
+    "html-pdf": false,
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

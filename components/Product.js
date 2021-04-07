@@ -21,7 +21,11 @@ export function Product({ clickHandler, productPrices, id }) {
           <Button
             variant="contained"
             color="primary"
-            style={{ marginTop: '100px' }}
+            style={{
+              marginTop: '100px',
+              color: '#8D2B0B',
+              backgroundColor: '#F7C948',
+            }}
             onClick={() =>
               clickHandler('payment', productPrices.envVarKey, quantity)
             }

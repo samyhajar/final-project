@@ -142,23 +142,11 @@ export default function AppComponent() {
 
     pdfDocGenerator.getDataUrl(setUrl);
 
-    router.push('/documents/');
+    router.push('/documents/doctest');
   }
 
   const mapSenderAddress = () => {
-    return (
-      sender.name +
-      ', ' +
-      sender.address +
-      ', ' +
-      sender.optionalAddress +
-      ', ' +
-      sender.ort +
-      ', ' +
-      sender.plz +
-      ', ' +
-      sender.staat
-    );
+    return sender.name + ', ' + sender.ort;
   };
 
   return (

@@ -217,17 +217,30 @@ export async function createDocument(
   ort,
   plz,
   staat,
-  sender,
-  recipient,
   date,
   body,
   user_id,
+  recipientName,
+  recipientAddress,
+  recipientOptionalAddress,
+  recipientOrt,
+  recipientPlz,
+  recipientStaat,
 ) {
   const documents = await sql`
     INSERT INTO documents
-      (name, address, optionalAddress, ort, plz, staat, sender, recipient, date, body, user_id)
-    VALUES
-    (${name}, ${address}, ${optionalAddress}, ${ort}, ${plz}, ${staat}, ${sender} ,${recipient}, ${date}, ${body}, ${user_id})
+      (name, address, optionalAddress, ort, plz, staat, date, body, user_id, recipientName,
+  recipientAddress,
+  recipientOptionalAddress,
+  recipientOrt,
+  recipientPlz,
+  recipientStaat)
+    VALUES  ( ${name}, ${address}, ${optionalAddress}, ${ort}, ${plz}, ${staat}, ${date}, ${body}, ${user_id}, ${recipientName},
+  ${recipientAddress},
+  ${recipientOptionalAddress},
+  ${recipientOrt},
+  ${recipientPlz},
+  ${recipientStaat})
     RETURNING *
   `;
   return camelcaseRecords(documents)[0];

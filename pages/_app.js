@@ -6,6 +6,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../theme';
 import Header from '../components/Header';
 
+import '../styles/creator.css';
+import '../styles/documents.css';
+
 export default function MyApp(props) {
   const [isSessionStateStale, setIsSessionStateStale] = useState(true);
   const [isSessionValid, setIsSessionValid] = useState(false);

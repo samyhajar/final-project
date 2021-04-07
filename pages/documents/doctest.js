@@ -62,40 +62,21 @@ export default function Products(props) {
             fontSize: 10,
             margin: [400, 2, 10, 10],
           },
-
-          // {
-          //   text: pdfInput.optionalAddress,
-          //   fontSize: 10,
-          //   margin: [400, 2, 10, 60],
-          // },
-          // { text: pdfInput.ort, fontSize: 10, margin: [0, 2, 10, 60] },
-          // { text: pdfInput.plz, fontSize: 10, margin: [0, 2, 10, 60] },
-          // { text: pdfInput.staat, fontSize: 10, margin: [0, 2, 10, 60] },
-          {
-            canvas: [
-              {
-                type: 'line',
-                x1: 0,
-                y1: 5,
-                x2: 400 - 2 * 40,
-                y2: 5,
-                lineWidth: 0.5,
-              },
-            ],
-          },
           {
             text:
-              pdfInput.name +
-              pdfInput.address +
-              ' ' +
-              pdfInput.optionalAddress +
-              pdfInput.ort +
-              ' ' +
-              pdfInput.plz +
-              pdfInput.staat,
+              pdfInput.name + pdfInput.address + ' ' + pdfInput.optionalAddress,
             fontSize: 10,
-            margin: [0, 2, 10, 0],
+            margin: [0, 2, 10, 60],
           },
+
+          {
+            text: pdfInput.optionalAddress,
+            fontSize: 10,
+            margin: [400, 2, 10, 60],
+          },
+          { text: pdfInput.ort, fontSize: 10, margin: [0, 2, 10, 60] },
+          { text: pdfInput.plz, fontSize: 10, margin: [0, 2, 10, 60] },
+          { text: pdfInput.staat, fontSize: 10, margin: [0, 2, 10, 60] },
           {
             canvas: [
               {
@@ -111,37 +92,24 @@ export default function Products(props) {
           {
             text: pdfInput.recipientname,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
-            bold: true,
+            margin: [20, 0, 10, 0],
           },
           {
-            text: pdfInput.recipientaddress,
-            fontSize: 10,
-            margin: [0, 0, 0, 0],
-            bold: true,
+            canvas: [
+              {
+                type: 'line',
+                x1: 0,
+                y1: 5,
+                x2: 400 - 2 * 40,
+                y2: 5,
+                lineWidth: 0.5,
+              },
+            ],
           },
           {
-            text: pdfInput.recipientoptionaladresse,
+            text: pdfInput.recipientName,
             fontSize: 10,
-            margin: [0, 0, 0, 0],
-            bold: true,
-          },
-          {
-            text: pdfInput.recipientort,
-            fontSize: 10,
-            margin: [0, 0, 0, 0],
-            bold: true,
-          },
-          {
-            text: pdfInput.recipientlplz,
-            fontSize: 10,
-            margin: [0, 0, 0, 0],
-            bold: true,
-          },
-          {
-            text: pdfInput.recipientstaat,
-            fontSize: 10,
-            margin: [0, 0, 0, 0],
+            margin: [20, 0, 10, 0],
             bold: true,
           },
           {
@@ -158,7 +126,7 @@ export default function Products(props) {
           },
           {
             text:
-              pdfInput.ort +
+              pdfInput.recipientort +
               ', am ' +
               pdfInput.date.getDate() +
               '.' +

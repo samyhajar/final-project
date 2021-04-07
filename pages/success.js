@@ -1,5 +1,6 @@
 import { Button } from '@material-ui/core';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
@@ -7,21 +8,27 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 export default function Success(props) {
   return (
-    <section>
+    <section
+      style={{
+        paddingTop: '150px',
+        backgroundColor: '#F5F7FA',
+        height: '100vh',
+      }}
+    >
       <div
         style={{
-          background: '#f5f7fa',
+          background: '#fff',
           borderRadius: '12px',
           borderColor: 'transparent',
           boxShadow: '0 1px 0 rgba(0, 0, 0, 0.15)',
           flexGrow: '1',
-          border: '1px solid #dddddd',
+          border: '1px solid #E4E7EB',
           justifySelf: 'center',
           maxWidth: '600px',
           height: 'auto',
           padding: '50px',
           margin: '0 auto',
-          marginTop: '100px',
+          marginTop: '0',
         }}
       >
         <h1>Successful Transaction </h1>
@@ -36,7 +43,7 @@ export default function Success(props) {
         >
           <Loader
             type="TailSpin"
-            color="#00BFFF"
+            color="#556cd6"
             height={80}
             width={80}
             timeout={10000}

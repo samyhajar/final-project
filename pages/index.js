@@ -175,9 +175,13 @@ export default function Pricing() {
         </Typography>
         <Button
           variant="contained"
-          color="primary"
           align="center"
-          style={{ marginLeft: '230px', marginTop: '100px' }}
+          style={{
+            marginLeft: '230px',
+            marginTop: '100px',
+            color: '#8D2B0B',
+            backgroundColor: '#F7C948',
+          }}
           onClick={() => router.push('/creator')}
         >
           Get Started

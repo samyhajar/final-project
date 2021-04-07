@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
 const { resolve } = require('path');
 
-require('dotenv').config({ path: resolve(__dirname, '../util/.env') });
+require('dotenv').config();
 
 async function main() {
   const browser = await puppeteer.launch({
@@ -12,20 +12,29 @@ async function main() {
   const page = await browser.newPage();
 
   const url = 'https://www.tages-post.at/start.html';
-
+  console.log(process.env.POSTLOGIN);
   await page.goto(url);
-  await page.type('#username', process.env.POST_LOGIN);
-  await page.type('#password', process.env.POST_PASSWORD);
+  await page.type('#username', process.env.POSTLOGIN);
+  await page.type('#password', process.env.POSTPASSWORD);
 
-  // click and wait for navigation
+  const [response] = await Promise.all([
+    page.waitForNavigation(),
+    await page.click('[type="submit"]'),
+  ]);
+  console.log(await response);
+  // await page.click('[type="submit"]');
 
-  await page.click('[type="submit"]');
-  await page.waitForNavigation(); // <------------------------- Wait for Navigation
+  // await page.once('load', () => console.log('page.loaded'));
+  // await page.click(
+  //   '#files_fineuploader > div > div.qq-upload-button-selector.qq-upload-button > input[type=file]',
+  // );
 
   // Chooses a file
   const [fileChooser] = await Promise.all([
     page.waitForFileChooser(),
-    page.click('input[type=file]'),
+    page.click(
+      '#files_fineuploader > div > div.qq-upload-button-selector.qq-upload-button > input[type=file]',
+    ),
   ]);
   // Chooses a PDF
   await fileChooser.accept([
@@ -46,6 +55,15 @@ async function main() {
   await page.click('#ctrl_printparameter');
 
   await page.waitForNavigation();
+
+  await page.waitForSelector(
+    '#table_sort_custom > tbody > tr:nth-child(1) > td:nth-child(3)',
+  );
+  // const element = await page.$(
+  //   '#table_sort_custom > tbody > tr:nth-child(1) > td:nth-child(3)',
+  // );
+  // const value = await page.evaluate((el) => el.textContent, element);
+  // console.log(value);
   // await page.type('#ctrl_title', 'Ausland');
 
   // await page.waitForNavigation();
@@ -58,5 +76,4 @@ async function main() {
 
   await page.click('[type="submit"]');
 }
-
 main();

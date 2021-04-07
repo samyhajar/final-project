@@ -16,18 +16,23 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const user = await getUserIdFromSessionToken(req.cookies.session);
 
+    console.log('####', req.body);
     const document = await createDocument(
-      req.body.name,
-      req.body.address,
-      req.body.optionalAddress,
-      req.body.ort,
-      req.body.plz,
-      req.body.staat,
-      req.body.sender,
-      req.body.recipient,
+      req.body.sender.name,
+      req.body.sender.address,
+      req.body.sender.optionalAddress,
+      req.body.sender.ort,
+      req.body.sender.plz,
+      req.body.sender.staat,
       req.body.date,
       req.body.body,
       user.userId,
+      req.body.recipient.name,
+      req.body.recipient.address,
+      req.body.recipient.optionalAddress,
+      req.body.recipient.ort,
+      req.body.plz,
+      req.body.staat,
     );
     res.json(document);
   }
