@@ -31,8 +31,8 @@ export default async function handler(req, res) {
       req.body.recipient.address,
       req.body.recipient.optionalAddress,
       req.body.recipient.ort,
-      req.body.plz,
-      req.body.staat,
+      req.body.recipient.plz,
+      req.body.recipient.staat,
     );
     res.json(document);
   }

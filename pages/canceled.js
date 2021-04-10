@@ -35,13 +35,13 @@ export default function Success(props) {
 export async function getServerSideProps(ctx) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { Stripe } = await import('stripe');
-  const { rejectedStatusByPayment } = await import('../util/database');
+  const { updateStatusToRejectedPayment } = await import('../util/database');
 
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
-  rejectedStatusByPayment(JSON.parse(session.metadata.stripeChargesId));
+  updateStatusToRejectedPayment(Number(session.metadata.stripeChargesId));
 
   return { props: { session } };
 }

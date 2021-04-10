@@ -1,6 +1,6 @@
 const addressInfo = ({ address, setAddress }) => {
   return (
-    <ul style={{ listStyleType: 'none' }}>
+    <ul style={{ listStyleType: 'none', height: '100px' }}>
       <li>
         <input
           style={{

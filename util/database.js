@@ -1,6 +1,7 @@
 import { generateToken } from './sessions';
 import camelcaseKeys from 'camelcase-keys';
 import postgres from 'postgres';
+import { id } from 'date-fns/locale';
 const path = require('path');
 
 require('dotenv').config();
@@ -270,6 +271,38 @@ export async function getDocumentbyuserId(user_id) {
   return documentsInfo;
 }
 
+// export async function getDocumentbySessionId(sessionId) {
+//   const documentId = sql`
+//     SELECT
+//     *
+//     FROM
+//     stripe_charges, documents
+//     WHERE
+//      stripe_sessions_id = ${sessionId}
+//   `;
+//   return documentId;
+// }
+
+export async function getDoc(stripeSessionId) {
+  const doc = sql`
+  SELECT
+  document_id,
+  name, address, optionalAddress, ort, plz, staat, date, body, user_id,  recipientName,
+  recipientAddress,
+  recipientOptionalAddress,
+  recipientOrt,
+  recipientPlz,
+  recipientStaat,
+  stripe_sessions_id
+  FROM
+  documents, stripe_charges
+  WHERE
+  stripe_sessions_id = ${stripeSessionId} AND
+  documents.id = stripe_charges.document_id
+  `;
+  return doc;
+}
+
 export async function createOrder(documentId) {
   const status = await sql`
     SELECT
@@ -317,7 +350,7 @@ export async function addSessionToOrder(sessionId, rowId) {
   `;
 }
 
-export async function successStatusByPayment(rowId) {
+export async function updateStatusToSuccessfulPayment(rowId) {
   const statusSuccessFull = await sql`
     SELECT
     id
@@ -335,7 +368,7 @@ export async function successStatusByPayment(rowId) {
   return statusSuccessFull;
 }
 
-export async function rejectedStatusByPayment(rowId) {
+export async function updateStatusToRejectedPayment(rowId) {
   const statusRejected = await sql`
     SELECT
     id

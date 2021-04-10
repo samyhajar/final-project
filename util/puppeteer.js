@@ -1,15 +1,11 @@
 const puppeteer = require('puppeteer');
 const { resolve } = require('path');
 
-require('dotenv').config();
-
 async function main() {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
   });
-  const browserWSEndpoint = browser.wsEndpoint();
-  console.log(browserWSEndpoint);
 
   const page = await browser.newPage();
 

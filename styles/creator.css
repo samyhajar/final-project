@@ -1,3 +1,7 @@
 .creator .recipient-input fieldset {
   border: none !important;
 }
+
+.creator .textField fieldset {
+  border: none !important;
+}

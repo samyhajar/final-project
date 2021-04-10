@@ -3,7 +3,7 @@ import {
   addSessionToOrder,
   createOrder,
   createOrderPost,
-  successStatusByPayment,
+  updateStatusToSuccessfulPayment,
 } from '../../util/database.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

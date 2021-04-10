@@ -82,12 +82,15 @@ export default function Products(props) {
           {
             text:
               pdfInput.name +
+              ' ' +
               pdfInput.address +
               ' ' +
               pdfInput.optionaladdress +
+              ' ' +
               pdfInput.ort +
               ' ' +
               pdfInput.plz +
+              ' ' +
               pdfInput.staat,
             fontSize: 10,
             margin: [20, 2, 10, 0],
@@ -129,7 +132,7 @@ export default function Products(props) {
             bold: true,
           },
           {
-            text: pdfInput.recipientlplz,
+            text: pdfInput.recipientplz,
             fontSize: 10,
             margin: [20, 0, 0, 0],
             bold: true,
@@ -234,7 +237,7 @@ export default function Products(props) {
                       secondary={
                         document.date.getDate().toString() +
                         '.' +
-                        document.date.getMonth().toString() +
+                        (document.date.getMonth() + 1).toString() +
                         '.' +
                         document.date.getFullYear().toString()
                       }
@@ -263,26 +266,6 @@ export default function Products(props) {
         </div>
         <div className="content">
           <Container>
-            <Typography
-              component="h3"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom
-              style={{ 'font-size': '14px' }}
-            >
-              Here is how your letter would look like (according to the standard
-              of Windowed letter)
-            </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="textSecondary"
-              component="p"
-              style={{ 'font-size': '12px' }}
-            >
-              If you are satisfied with the result, proceed to Checkout
-            </Typography>
             <Product
               clickHandler={handleClick}
               productPrices={props.productPrices[0]}
@@ -298,7 +281,6 @@ export async function getServerSideProps(context) {
   const { getDocumentbyuserId } = await import('../../util/database');
   require('dotenv-safe').config();
   const documentsInfo = await getDocumentbyuserId();
-  console.log('###!!documentsinfo', documentsInfo);
   documentsInfo.forEach(
     (document) => (document.date = document.date.toString()),
   );

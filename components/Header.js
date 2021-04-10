@@ -33,7 +33,6 @@ const Header = (props) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <img src="/mail.png" alt="lol" />
         <Container
           maxWidth="xl"
           sx={{ display: `flex`, justifyContent: `space-between` }}

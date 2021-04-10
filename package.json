@@ -46,6 +46,7 @@
     "react-draft-wysiwyg": "^1.14.5",
     "react-loader-spinner": "^4.0.0",
     "react-reveal": "^1.2.2",
+    "roboto-font": "^0.1.0",
     "slate": "^0.62.0",
     "slate-hyperscript": "^0.62.0",
     "slate-react": "^0.62.0",

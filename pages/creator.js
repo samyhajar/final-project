@@ -1,5 +1,12 @@
 import pdfMake from 'pdfmake/build/pdfmake';
-import { Paper, input, Button, Typography, TextField } from '@material-ui/core';
+import {
+  Paper,
+  input,
+  Button,
+  Typography,
+  TextField,
+  inputClasses,
+} from '@material-ui/core';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -56,31 +63,50 @@ export default function AppComponent() {
           style: 'header',
           margin: [400, 2, 10, 0],
         },
+        {
+          text: sender.optionalAddress,
+          fontSize: 10,
+          style: 'header',
+          margin: [400, 2, 10, 0],
+        },
         // if you set the value of text to an array instead of a string, you'll be able
         // to style any part individually
-        { text: sender.ort, fontSize: 10, margin: [400, 2, 10, 0] },
-        { text: sender.plz, fontSize: 10, margin: [400, 2, 10, 0] },
-        { text: sender.staat, fontSize: 10, margin: [400, 2, 10, 10] },
+        { text: sender.ort, fontSize: 10, margin: [400, 2, 10, 0] } +
+          ', ' +
+          { text: sender.plz, fontSize: 10, margin: [400, 2, 10, 0] },
+        { text: sender.staat, fontSize: 10, margin: [400, 2, 10, 0] },
         {
           canvas: [
             {
               type: 'line',
               x1: 0,
               y1: 5,
-              x2: 400 - 2 * 40,
+              x2: 350 - 2 * 40,
               y2: 5,
               lineWidth: 0.5,
             },
           ],
         },
-        { text: sender, fontSize: 10, margin: [40, 0, 10, 0] },
+        {
+          text:
+            sender.name +
+            sender.address +
+            ' ' +
+            sender.optionalAddress +
+            sender.ort +
+            ' ' +
+            sender.plz +
+            sender.staat,
+          fontSize: 10,
+          margin: [20, 2, 10, 0],
+        },
         {
           canvas: [
             {
               type: 'line',
               x1: 0,
               y1: 5,
-              x2: 400 - 2 * 40,
+              x2: 350 - 2 * 40,
               y2: 5,
               lineWidth: 0.5,
             },
@@ -88,39 +114,40 @@ export default function AppComponent() {
         },
         {
           text: recipient.name,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
+          fontSize: 10,
+          margin: [20, 0, 0, 0],
+          bold: true,
         },
-        {
-          text: recipient.address,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
-        },
+        +' ' +
+          {
+            text: recipient.address,
+            fontSize: 10,
+            margin: [20, 0, 0, 0],
+            bold: true,
+          },
         {
           text: recipient.optionalAddress,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
+          fontSize: 10,
+          margin: [20, 0, 0, 0],
+          bold: true,
         },
         {
           text: recipient.ort,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
+          fontSize: 10,
+          margin: [20, 0, 0, 0],
+          bold: true,
         },
         {
           text: recipient.plz,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
+          fontSize: 10,
+          margin: [20, 0, 0, 0],
+          bold: true,
         },
         {
           text: recipient.staat,
-          fontSize: 15,
-          margin: [40, 20, 10, 0],
-          bold: false,
+          fontSize: 10,
+          margin: [20, 0, 0, 0],
+          bold: true,
         },
         {
           canvas: [
@@ -128,14 +155,18 @@ export default function AppComponent() {
               type: 'line',
               x1: 0,
               y1: 5,
-              x2: 400 - 2 * 40,
+              x2: 350 - 2 * 40,
               y2: 5,
               lineWidth: 0.5,
             },
           ],
         },
-        { text: date, fontSize: 10, margin: [320, 10, 10, 0] },
-        { text: body, fontSize: 12, margin: [40, 40, 10, 0] },
+        {
+          text: sender.ort + ', am' + ' ' + date,
+          fontSize: 10,
+          margin: [390, 30, 10, 0],
+        },
+        { text: body, fontSize: 12, margin: [20, 40, 20, 0] },
       ],
     };
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
@@ -170,11 +201,11 @@ export default function AppComponent() {
           backgroundColor: '#F5F7FA',
         }}
       >
-        <div style={{ paddingLeft: '100px', paddingTop: '50px' }}>
+        <div style={{ paddingLeft: '100px', paddingTop: '10px' }}>
           <Paper
             sx={{
-              height: '29.7cm',
-              width: '21cm',
+              height: '22cm',
+              width: '20cm',
               margin: '0 auto',
               paddingTop: '10px',
             }}
@@ -182,9 +213,14 @@ export default function AppComponent() {
           >
             <div
               style={{
-                height: '6.5cm',
+                height: '4.5cm',
                 display: 'block',
-                marginLeft: '570px',
+                marginLeft: '560px',
+                marginRight: '20px',
+                background: '#F5F7FA',
+                borderRadius: '5px',
+                borderColor: 'transparent',
+                padding: '0px',
               }}
             >
               <AddressInfo address={sender} setAddress={setSender} />
@@ -204,13 +240,16 @@ export default function AppComponent() {
                 size="small"
                 // className={classes.inputField}
                 style={{
-                  marginLeft: '30px',
+                  marginLeft: '20px',
                   marginTop: '0px',
                   width: '400px',
                   background: 'transparent',
                   border: 'none',
                   outline: 'transparent',
                   userSelect: 'none',
+                  background: '#F5F7FA',
+                  borderRadius: '5px',
+                  borderColor: 'transparent',
                 }}
                 id="outlined-basic"
                 label="sender"
@@ -248,17 +287,20 @@ export default function AppComponent() {
               }}
               noValidate
             >
-              <input
+              <TextField
                 style={{
                   border: '1px solid',
                   borderRadius: '5px',
                   borderDecoration: 'none',
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'transparent',
                 }}
                 type="date"
                 value={date}
                 onChange={(event) => setDate(event.currentTarget.value)}
                 id="date"
-                label="Datum"
+                // label="Datum"
                 inputlabelprops={{
                   shrink: true,
                 }}
@@ -274,10 +316,10 @@ export default function AppComponent() {
                 label="Body"
                 style={{
                   width: '700px',
-                  height: '400px',
+                  height: '340px',
                   marginLeft: '30px',
                   padding: '5px',
-                  marginTop: '40px',
+                  marginTop: '30px',
                   background: '#F5F7FA',
                   borderRadius: '5px',
                   borderColor: 'transparent',

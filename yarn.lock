@@ -5897,6 +5897,11 @@ rndm@1.2.0:
   resolved "https://registry.yarnpkg.com/rndm/-/rndm-1.2.0.tgz#f33fe9cfb52bbfd520aa18323bc65db110a1b76c"
   integrity sha1-8z/pz7Urv9UgqhgyO8ZdsRCht2w=
 
+roboto-font@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/roboto-font/-/roboto-font-0.1.0.tgz#c3ee19d82ca087bc742423c0f9974384555e19fd"
+  integrity sha1-w+4Z2Cygh7x0JCPA+ZdDhFVeGf0=
+
 rtl-css-js@^1.14.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/rtl-css-js/-/rtl-css-js-1.14.1.tgz#f79781d6a0c510abe73fde60aa3cbe9dfd134a45"

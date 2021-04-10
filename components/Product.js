@@ -12,17 +12,14 @@ export function Product({ clickHandler, productPrices, id }) {
   console.log('log', productPrices);
   return (
     <div>
-      <div style={{ marginLeft: '110px', marginBottom: '10px' }}>
-        {/* <div style={{ marginLeft: '110px', marginTop: '30px' }}>
-          <Counter currentValue={quantity} newValueSetter={setQuantity} />
-        </div> */}
+      <div>
         <br />
         <div>
           <Button
             variant="contained"
             color="primary"
             style={{
-              marginTop: '100px',
+              width: '60%',
               color: '#8D2B0B',
               backgroundColor: '#F7C948',
             }}
