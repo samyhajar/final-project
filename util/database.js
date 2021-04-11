@@ -2,13 +2,34 @@ import { generateToken } from './sessions';
 import camelcaseKeys from 'camelcase-keys';
 import postgres from 'postgres';
 import { id } from 'date-fns/locale';
-const path = require('path');
+import setPostgresDefaultsOnHeroku from './setPostgresDefaultsOnHeroku';
+
+setPostgresDefaultsOnHeroku();
 
 require('dotenv').config();
 
-const sql = postgres(
-  'postgres://finalproject:finalproject@localhost:5432/finalproject',
-);
+function connectOneTimeToDatabase() {
+  let sql;
+
+  if (process.env.NODE_ENV === 'production') {
+    // Heroku needs SSL connections but
+    // has an "unauthorized" certificate
+    // https://devcenter.heroku.com/changelog-items/852
+    sql = postgres({ ssl: { rejectUnauthorized: false } });
+  } else {
+    if (!globalThis.__postgresSqlClient) {
+      globalThis.__postgresSqlClient = postgres();
+    }
+    sql = globalThis.__postgresSqlClient;
+  }
+  return sql;
+}
+
+const sql = connectOneTimeToDatabase();
+
+// const sql = postgres(
+//   'postgres://finalproject:finalproject@localhost:5432/finalproject',
+// );
 
 function camelcaseRecords(records) {
   return records.map((record) => camelcaseKeys(record));

@@ -8,8 +8,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "migrate": "dotenv ley"
+    "start": "next start -p ${PORT:-\"3000\"}",
+    "migrate": "dotenv ley",
+    "heroku-postbuild": "yarn migrate up && yarn build"
   },
   "dependencies": {
     "@emotion/react": "^11.1.5",
@@ -44,6 +45,7 @@
     "nprogress": "^0.2.0",
     "pdfjs-dist": "^2.6.347",
     "pdfmake": "^0.1.70",
+    "pg-connection-string": "^2.4.0",
     "postgres": "^1.0.2",
     "puppeteer": "^8.0.0",
     "react": "^17.0.2",
@@ -84,5 +86,8 @@
   },
   "browser": {
     "html-pdf": false
-  }
+  },
+  "cacheDirectories": [
+    ".next/cache"
+  ]
 }
