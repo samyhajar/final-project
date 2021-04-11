@@ -38,15 +38,15 @@ const Header = (props) => {
           sx={{ display: `flex`, justifyContent: `space-between` }}
         >
           <IconButton edge="start" color="inherit" aria-label="home">
-            {/* <Home fontSize="large">
-              <Link component="nav" href={homeLink.path} /> */}
-            <Image
+            <Home fontSize="large">
+              <Link component="nav" href={homeLink.path} />
+              {/* <Image
               src="/images/posttlify.png"
               width="100%px"
               height="30px"
               alt="lol"
-            />
-            {/* </Home> */}
+            /> */}
+            </Home>
           </IconButton>
           <List
             component="nav"
