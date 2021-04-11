@@ -64,7 +64,9 @@ export default function Success(props) {
               timeout={10000}
             />
           ) : (
-            <div>DONE</div>
+            <Button variant="contained" color="greens">
+              Sent
+            </Button>
           )}
         </div>
       </div>

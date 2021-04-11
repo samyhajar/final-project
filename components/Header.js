@@ -41,9 +41,9 @@ const Header = (props) => {
             {/* <Home fontSize="large">
               <Link component="nav" href={homeLink.path} /> */}
             <Image
-              src="/images/postify.png"
-              width="50px"
-              height="20px"
+              src="/images/posttlify.png"
+              width="100%px"
+              height="30px"
               alt="lol"
             />
             {/* </Home> */}
