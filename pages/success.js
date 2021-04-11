@@ -61,7 +61,7 @@ export default function Success(props) {
               color="#F7C948"
               height={80}
               width={80}
-              timeout={10000}
+              timeout={5000}
             />
           ) : (
             <Button
