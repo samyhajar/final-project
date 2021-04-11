@@ -4,9 +4,10 @@ let docId;
 
 async function main(launchOptions) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: null,
     browserContext: 'default',
+    args: ['--no-sandbox'],
   });
 
   const page = await browser.newPage();
