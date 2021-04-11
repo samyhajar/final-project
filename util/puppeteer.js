@@ -4,7 +4,7 @@ let docId;
 
 async function main(launchOptions) {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     defaultViewport: null,
     browserContext: 'default',
   });
@@ -50,6 +50,10 @@ async function main(launchOptions) {
   );
 
   await page.click('#ctrl_printparameter');
+
+  await page.waitForSelector('#ctrl_senddocument');
+  await page.click('#ctrl_senddocument');
+
   const self = this;
   browser.on('disconnected', async () => {
     self.browser = await puppeteer.launch(launchOptions);

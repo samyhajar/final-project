@@ -19,6 +19,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Success(props) {
+  const [isLoading, setIsLoading] = useState(true);
+  setTimeout(() => setIsLoading(false), 10000);
   return (
     <section
       style={{
@@ -53,13 +55,17 @@ export default function Success(props) {
             paddingTop: '20px',
           }}
         >
-          <Loader
-            type="TailSpin"
-            color="#F7C948"
-            height={80}
-            width={80}
-            timeout={10000}
-          />
+          {isLoading ? (
+            <Loader
+              type="TailSpin"
+              color="#F7C948"
+              height={80}
+              width={80}
+              timeout={10000}
+            />
+          ) : (
+            <div>DONE</div>
+          )}
         </div>
       </div>
 
@@ -103,7 +109,6 @@ export async function getServerSideProps(ctx) {
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;
-  console.log('LALALALA', ctx.query);
 
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
 
@@ -116,7 +121,7 @@ export async function getServerSideProps(ctx) {
   docId.forEach((document) => (document.date = document.date.toString()));
   // console.log('LOG', docId);
   const pdfDocGenerator = await pdfMake.createPdf(docId);
-  console.log('HAHHAHAHAHA', pdfDocGenerator.docDefinition[0]);
+  console.log('HAHHAHAHAHA', docId, sessionId, pdfDocGenerator.docDefinition);
 
   const layoutDoc = {
     content: [
