@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const domainURL = 'https://ec2-63-34-97-163.eu-west-1.compute.amazonaws.com';
+  const domainURL = 'ec2-63-34-97-163.eu-west-1.compute.amazonaws.com';
 
   const { quantity, mode, envVarKey, documentId } = req.body;
 
