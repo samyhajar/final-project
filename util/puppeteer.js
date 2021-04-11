@@ -4,7 +4,7 @@ let docId;
 
 async function main(launchOptions) {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     defaultViewport: null,
     browserContext: 'default',
   });
@@ -50,7 +50,6 @@ async function main(launchOptions) {
   );
 
   await page.click('#ctrl_printparameter');
-
   const self = this;
   browser.on('disconnected', async () => {
     self.browser = await puppeteer.launch(launchOptions);
