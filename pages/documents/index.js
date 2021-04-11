@@ -254,7 +254,7 @@ export default function Products(props) {
             style={{
               width: '47%',
               position: 'absolute',
-              height: '80%',
+              height: '90%',
               borderRadius: '10px',
             }}
             frameBorder="0"

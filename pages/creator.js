@@ -204,7 +204,7 @@ export default function AppComponent() {
         <div style={{ paddingLeft: '100px', paddingTop: '10px' }}>
           <Paper
             sx={{
-              height: '22cm',
+              height: '24.3cm',
               width: '20cm',
               margin: '0 auto',
               paddingTop: '10px',
