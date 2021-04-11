@@ -22,7 +22,7 @@ const Header = (props) => {
     { title: `${props.userName}`, path: `/profile/` },
     { title: `CREATOR`, path: `/creator` },
     { title: `PDFS`, path: `/documents` },
-    // { title: `REGISTER`, path: `/register` },
+    { title: `REGISTER`, path: `/register` },
   ];
 
   if (props.session) {
