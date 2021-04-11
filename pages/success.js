@@ -64,7 +64,10 @@ export default function Success(props) {
               timeout={10000}
             />
           ) : (
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              style={{ color: '#357A38', backgroundColor: '#6FBF73' }}
+            >
               Sent
             </Button>
           )}
