@@ -79,7 +79,8 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-testing-library": "3.10.1",
     "eslint-plugin-unicorn": "28.0.2",
-    "ley": "^0.7.0"
+    "ley": "^0.7.0",
+    "typescript": "^4.2.4"
   },
   "browser": {
     "html-pdf": false
