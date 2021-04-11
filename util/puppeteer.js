@@ -7,7 +7,7 @@ async function main(launchOptions) {
     headless: true,
     defaultViewport: null,
     browserContext: 'default',
-    args: ['--no-sandbox'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
 
   const page = await browser.newPage();
