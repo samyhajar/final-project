@@ -1,10 +1,12 @@
 const puppeteer = require('puppeteer');
-const { resolve } = require('path');
 
-async function main() {
+let docId;
+
+async function main(launchOptions) {
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
+    browserContext: 'default',
   });
 
   const page = await browser.newPage();
@@ -30,8 +32,10 @@ async function main() {
   ]);
   // Chooses a PDF
   await fileChooser.accept([
-    '/Users/sam/projects/final-project/pdf/rechnung.pdf',
+    `/Users/sam/projects/final-project/pdf/${docId}.pdf`,
   ]);
+
+  // ${props.documentId.docDefinition[0].document_id}
 
   // awaits for the list of pdf uploaded
   await page.waitForSelector('form#uploaderForm ul > li.qq-upload-success');
@@ -47,21 +51,32 @@ async function main() {
 
   await page.click('#ctrl_printparameter');
 
-  // // await page.waitForNavigation();
-
-  await page.waitForSelector(
-    '#table_sort_custom > tbody > tr:nth-child(1) > #address',
-  );
-  await browser.close();
-  await page.waitForSelector('#ctrl_senddocument');
-  await page.click('#ctrl_senddocument');
-
-  await page.waitForNavigation();
-
-  await page.click('#paymentform > input[type=submit]:nth-child(10)');
-
-  await page.waitForNavigation();
-
-  await browser.close();
+  const self = this;
+  browser.on('disconnected', async () => {
+    self.browser = await puppeteer.launch(launchOptions);
+  });
 }
 main();
+// // await page.waitForNavigation();
+
+// await page.waitForSelector(
+//   '#table_sort_custom > tbody > tr:nth-child(1) > #address',
+// );
+
+// await page.waitForNavigation();
+
+// await page.waitForSelector('#ctrl_senddocument');
+// await page.click('#ctrl_senddocument');
+
+// await page.waitForNavigation();
+
+// await page.click('#paymentform > input[type=submit]:nth-child(10)');
+
+// await page.waitForNavigation();
+
+// await browser.close();
+
+module.exports = function getDocId(id) {
+  docId = id;
+  console.log(id);
+};

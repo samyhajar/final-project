@@ -7,6 +7,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import creator from './creator';
 import AddressInfo from '../components/addressInfo';
 import pdfMake from 'pdfmake/build/pdfmake';
+
 import {
   Paper,
   input,
@@ -102,6 +103,7 @@ export async function getServerSideProps(ctx) {
   const stripeServer = new Stripe(process.env.STRIPE_SECRET_KEY);
 
   const { session_id: sessionId } = ctx.query;
+  console.log('LALALALA', ctx.query);
 
   const session = await stripeServer.checkout.sessions.retrieve(sessionId);
 
@@ -126,32 +128,27 @@ export async function getServerSideProps(ctx) {
       {
         text: pdfDocGenerator.docDefinition[0].address,
         fontSize: 10,
-        style: 'header',
         margin: [400, 2, 10, 0],
       },
       {
-        text: pdfDocGenerator.docDefinition[0].optionalAddress,
+        text: pdfDocGenerator.docDefinition[0].optionaladdress,
         fontSize: 10,
-        style: 'header',
         margin: [400, 2, 10, 0],
       },
-      // if you set the value of text to an array instead of a string, you'll be able
-      // to style any part individually
       {
         text: pdfDocGenerator.docDefinition[0].ort,
         fontSize: 10,
         margin: [400, 2, 10, 0],
-      } +
-        ', ' +
-        {
-          text: pdfDocGenerator.docDefinition[0].plz,
-          fontSize: 10,
-          margin: [400, 2, 10, 0],
-        },
+      },
+      {
+        text: pdfDocGenerator.docDefinition[0].plz,
+        fontSize: 10,
+        margin: [400, 2, 10, 0],
+      },
       {
         text: pdfDocGenerator.docDefinition[0].staat,
         fontSize: 10,
-        margin: [400, 2, 10, 0],
+        margin: [400, 2, 10, 45],
       },
       {
         canvas: [
@@ -168,12 +165,14 @@ export async function getServerSideProps(ctx) {
       {
         text:
           pdfDocGenerator.docDefinition[0].name +
+          ',' +
           pdfDocGenerator.docDefinition[0].address +
           ' ' +
           pdfDocGenerator.docDefinition[0].optionaladdress +
           pdfDocGenerator.docDefinition[0].ort +
           ' ' +
           pdfDocGenerator.docDefinition[0].plz +
+          ' ' +
           pdfDocGenerator.docDefinition[0].staat,
         fontSize: 10,
         margin: [20, 2, 10, 0],
@@ -196,13 +195,12 @@ export async function getServerSideProps(ctx) {
         margin: [20, 0, 0, 0],
         bold: true,
       },
-      +' ' +
-        {
-          text: pdfDocGenerator.docDefinition[0].recipientaddress,
-          fontSize: 10,
-          margin: [20, 0, 0, 0],
-          bold: true,
-        },
+      {
+        text: pdfDocGenerator.docDefinition[0].recipientaddress,
+        fontSize: 10,
+        margin: [20, 0, 0, 0],
+        bold: true,
+      },
       {
         text: pdfDocGenerator.docDefinition.recipientoptionaladdress,
         fontSize: 10,
@@ -244,7 +242,11 @@ export async function getServerSideProps(ctx) {
           pdfDocGenerator.docDefinition[0].ort +
           ', am' +
           ' ' +
-          pdfDocGenerator.docDefinition[0].date,
+          pdfDocGenerator.docDefinition[0].date
+            .toString()
+            .split(' ')
+            .slice(0, 4)
+            .join(' '),
         fontSize: 10,
         margin: [390, 30, 10, 0],
       },
@@ -270,14 +272,8 @@ export async function getServerSideProps(ctx) {
     },
   };
 
-  const PdfPrinter = require('pdfmake/src/printer');
-  const printer = new PdfPrinter(fontDescriptors);
-  // const docDefinition = {
-  //   content: [
-  //     'First paragraph',
-  //     'Another paragraph, this time a little bit longer to make sure, this line will be divided into at least two lines',
-  //   ],
-  // };
+  const pdfPrinter = require('pdfmake/src/printer');
+  const printer = new pdfPrinter(fontDescriptors);
 
   const pdfDoc = printer.createPdfKitDocument(layoutDoc);
   pdfDoc.pipe(
@@ -287,77 +283,19 @@ export async function getServerSideProps(ctx) {
   );
   pdfDoc.end();
 
-  // TO DO
-  // 1. get document from the database DONE ✅
+  const puppeteer = await require('../util/puppeteer');
+  const getDocId = await require('../util/puppeteer');
+  getDocId(pdfDocGenerator.docDefinition[0].document_id);
 
-  // 2. Save   pdf file to temp folder (docDefinition ) //
-
-  // 3. Pass it To PUPPETEER
-  // 4. Delete it from Temp
-
-  // await successStatusByPaymentPost();
-
-  return { props: { session, docId } };
+  return { props: { session } };
 }
 
-// const pdfMakePrinter = require('pdfmake/src/printer');
+// TO DO
+// 1. get document from the database DONE ✅
 
-// function generatePdf(docDefinition) {
-//   try {
-//     const fontDescriptors = {
-//       Roboto: {
-//         normal: 'fonts/Roboto-Regular.ttf',
-//         bold: 'fonts/Roboto-Medium.ttf',
-//         italics: 'fonts/Roboto-Italic.ttf',
-//         bolditalics: 'fonts/Roboto-MediumItalic.ttf',
-//       },
-//     };
-//     const printer = new pdfMakePrinter(fontDescriptors);
-//     const doc = printer.createPdfKitDocument(docDefinition);
-//     var pdfDoc = printer.createPdfKitDocument(docDefinition);
+// 2. Save   pdf file to temp folder (docDefinition ) // ✅
 
-//     const docDefi = {
-//       content: ['First Paragraph', 'Another Paragraph'],
-//     };
-//     doc.pipe(
-//       fs.createWriteStream('pdf/filename.pdf').on('error', (err) => {}),
-//     );
+// 3. Pass it To PUPPETEER ✅
+// 4. Delete it from Temp
 
-//     doc.on('end', () => {});
-
-//     doc.end();
-//   } catch (err) {
-//     throw err;
-//   }
-// }
-// generatePdf(docDefi);
-
-// var PdfPrinter = require('pdfmake');
-// var printer = new PdfPrinter(fonts);
-
-// var pdfDoc = printer.createPdfKitDocument(pdfDocGenerator.docDefinition[0]);
-// pdfDoc.pipe(
-//   fs.createWriteStream(
-//     `pdf/${pdfDocGenerator.docDefinition[0].recipientname}.pdf`,
-//   ),
-// );
-// pdfDoc.end();
-
-// fs.createWriteStream(
-//   `pdf/${pdfDocGenerator.docDefinition[0].recipientname}.pdf`,
-//   pdfDocGenerator.docDefinition[0],
-// );
-
-// await fs.writeFile(
-//   `pdf/${pdfDocGenerator.docDefinition[0].document_id}.pdf`,
-//   toString(pdfDocGenerator.docDefinition.name),
-//   (err) => {
-//     if (err) {
-//       console.error(err);
-//       return;
-//     }
-//     // file written successfully
-//   },
-// );
-
-// console.log(createDocument());
+// await successStatusByPaymentPost();
