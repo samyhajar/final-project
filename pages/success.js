@@ -20,7 +20,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export default function Success(props) {
   const [isLoading, setIsLoading] = useState(true);
-  setTimeout(() => setIsLoading(false), 10000);
+  setTimeout(() => setIsLoading(false), 5000);
   return (
     <section
       style={{
