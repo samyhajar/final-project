@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const domainURL = 'https://postlify.herokuapp.com ';
+  const domainURL = 'https://postlify.herokuapp.com';
 
   const { quantity, mode, envVarKey, documentId } = req.body;
 
