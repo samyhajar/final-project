@@ -6,7 +6,7 @@ Basic principles :
    (previews the content of the letter) 
   - you'll be given the choice of Destination (inland, international, europe)  
   - which will be then use to create automatically a PDF.
-  - This PDF will be then automatically (Pupeteer) send through the service of the austrian post (https://www.tages-post.at/start.html)
+  - This PDF will be then automatically (Pupeteer) send through the service of the austrian post (https://www.einfach-brief.at/fe/)
   
 
 > this service helps you create a digital format of a letter and the entity will receive this letter physically.
